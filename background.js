@@ -19,8 +19,17 @@ chrome.action.onClicked.addListener(async (tab) => {
   // open list view (if not already opened)
   const LIST_VIEW_PATH = "list/index.html";
   const listViewURL = chrome.runtime.getURL(LIST_VIEW_PATH);
+
   const listViewTabs = await chrome.tabs.query({ url: listViewURL });
-  if (!listViewTabs.length) {
+  const listViewTab = listViewTabs[0];
+
+  if (!listViewTab) {
     await chrome.tabs.create({ url: LIST_VIEW_PATH });
+    return;
   }
+  await chrome.windows.update(listViewTab.windowId, { focused: true });
+  await chrome.tabs.highlight({
+    tabs: listViewTab.index,
+    windowId: listViewTab.windowId,
+  });
 });
