@@ -15,4 +15,7 @@ chrome.action.onClicked.addListener(async (tab) => {
 
   // close window and all tabs inside it
   await chrome.windows.remove(windowId);
+
+  // open list view
+  await chrome.tabs.create({ url: "list/index.html" });
 });
