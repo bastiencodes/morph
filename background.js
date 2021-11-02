@@ -16,6 +16,11 @@ chrome.action.onClicked.addListener(async (tab) => {
   // close window and all tabs inside it
   await chrome.windows.remove(windowId);
 
-  // open list view
-  await chrome.tabs.create({ url: "list/index.html" });
+  // open list view (if not already opened)
+  const LIST_VIEW_PATH = "list/index.html";
+  const listViewURL = chrome.runtime.getURL(LIST_VIEW_PATH);
+  const listViewTabs = await chrome.tabs.query({ url: listViewURL });
+  if (!listViewTabs.length) {
+    await chrome.tabs.create({ url: LIST_VIEW_PATH });
+  }
 });
