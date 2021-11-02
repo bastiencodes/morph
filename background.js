@@ -1,3 +1,5 @@
+import { bringTabToForeground } from "./helpers/tabs.js";
+
 chrome.runtime.onInstalled.addListener((details) => {
   console.log("Extension installed!");
   console.log("Details", details);
@@ -27,9 +29,5 @@ chrome.action.onClicked.addListener(async (tab) => {
     await chrome.tabs.create({ url: LIST_VIEW_PATH });
     return;
   }
-  await chrome.windows.update(listViewTab.windowId, { focused: true });
-  await chrome.tabs.highlight({
-    tabs: listViewTab.index,
-    windowId: listViewTab.windowId,
-  });
+  await bringTabToForeground(listViewTab);
 });
