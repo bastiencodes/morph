@@ -12,4 +12,7 @@ chrome.action.onClicked.addListener(async (tab) => {
 
   const urls = tabs.map((tab) => tab.url);
   await chrome.windows.create({ url: urls });
+
+  // close window and all tabs inside it
+  await chrome.windows.remove(windowId);
 });
