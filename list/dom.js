@@ -1,3 +1,5 @@
+import { removeTabGroup } from "../helpers/storage.js";
+
 // tab header
 function createTabCount(count) {
   const span = document.createElement("span");
@@ -10,6 +12,12 @@ function createTabDate(createdAt) {
   const span = document.createElement("span");
   span.innerText = new Date(createdAt).toISOString();
   return span;
+}
+
+async function deleteTabGroup(id, btn) {
+  await removeTabGroup(id);
+  const el = btn.closest(".tabGroup");
+  el.remove();
 }
 
 function createTabActions(id, tabs) {
