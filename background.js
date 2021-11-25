@@ -1,4 +1,4 @@
-import { bringTabToForeground } from "./helpers/tabs.js";
+import { displayList } from "./helpers/tabs.js";
 
 chrome.runtime.onInstalled.addListener((details) => {
   console.log("Extension installed!");
@@ -19,15 +19,5 @@ chrome.action.onClicked.addListener(async (tab) => {
   await chrome.windows.remove(windowId);
 
   // open list view (if not already opened)
-  const LIST_VIEW_PATH = "list/index.html";
-  const listViewURL = chrome.runtime.getURL(LIST_VIEW_PATH);
-
-  const listViewTabs = await chrome.tabs.query({ url: listViewURL });
-  const listViewTab = listViewTabs[0];
-
-  if (!listViewTab) {
-    await chrome.tabs.create({ url: LIST_VIEW_PATH });
-    return;
-  }
-  await bringTabToForeground(listViewTab);
+  await displayList();
 });
