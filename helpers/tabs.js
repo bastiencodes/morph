@@ -28,7 +28,7 @@ async function closeTabs(tabs) {
   await chrome.tabs.remove(tabIds);
 }
 
-export async function sendTabs(tabs) {
+async function sendTabs(tabs) {
   // 1. Store tabs
   await storeTabs(tabs);
 
@@ -43,8 +43,13 @@ export async function sendTabs(tabs) {
   await displayList();
 }
 
-export async function getAllTabsInWindow(currentTab) {
+async function getAllTabsInWindow(currentTab) {
   const { windowId } = currentTab;
   const tabs = await chrome.tabs.query({ windowId });
   return tabs;
+}
+
+export async function sendAll(currentTab) {
+  const tabs = await getAllTabsInWindow(currentTab);
+  return sendTabs(tabs);
 }

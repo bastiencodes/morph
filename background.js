@@ -1,4 +1,4 @@
-import { getAllTabsInWindow, sendTabs } from "./helpers/tabs.js";
+import { sendAll } from "./helpers/tabs.js";
 
 chrome.runtime.onInstalled.addListener((details) => {
   console.log("Extension installed!");
@@ -7,6 +7,5 @@ chrome.runtime.onInstalled.addListener((details) => {
 
 chrome.action.onClicked.addListener(async (currentTab) => {
   console.log(currentTab);
-  const tabs = await getAllTabsInWindow(currentTab);
-  await sendTabs(tabs);
+  await sendAll(currentTab);
 });
