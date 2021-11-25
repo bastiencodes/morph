@@ -1,4 +1,5 @@
 import { removeTabGroup } from "../helpers/storage.js";
+import { openTabs } from "../helpers/tabs.js";
 
 // tab header
 function createTabCount(count) {
@@ -26,6 +27,10 @@ function createTabActions(id, tabs) {
 
   const restoreBtn = document.createElement("button");
   restoreBtn.innerText = "Restore all";
+  restoreBtn.addEventListener("click", async () => {
+    await openTabs(tabs);
+    await deleteTabGroup(id, restoreBtn);
+  });
 
   const deleteBtn = document.createElement("button");
   deleteBtn.innerText = "Delete all";
