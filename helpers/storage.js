@@ -10,3 +10,7 @@ export function createTabGroup(tabs) {
     tabs,
   };
 }
+
+export async function saveTabGroup(tabGroup) {
+  await chrome.storage.local.set({ [tabGroup.id]: tabGroup });
+}

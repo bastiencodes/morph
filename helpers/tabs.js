@@ -1,5 +1,5 @@
 import { LIST_VIEW_PATH } from "./constants.js";
-import { createTabGroup } from "./storage.js";
+import { createTabGroup, saveTabGroup } from "./storage.js";
 
 async function bringTabToForeground(tab) {
   const { windowId, index } = tab;
@@ -23,6 +23,7 @@ async function displayList() {
 async function storeTabs(tabs) {
   const tabGroup = createTabGroup(tabs);
   console.log("Tab group", tabGroup);
+  await saveTabGroup(tabGroup);
 }
 
 async function closeTabs(tabs) {
