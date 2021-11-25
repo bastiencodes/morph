@@ -26,6 +26,11 @@ async function storeTabs(tabs) {
   await saveTabGroup(tabGroup);
 }
 
+export async function openTabs(tabs) {
+  const urls = tabs.map((tab) => tab.url);
+  await chrome.windows.create({ url: urls });
+}
+
 async function closeTabs(tabs) {
   const tabIds = tabs.map((tab) => tab.id);
   await chrome.tabs.remove(tabIds);
