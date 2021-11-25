@@ -1,4 +1,5 @@
 import { getTabGroups } from "../helpers/storage.js";
+import { createTabGroup } from "./dom.js";
 
 // Content scripts are files that run in the context of web pages
 (async () => {
@@ -9,10 +10,9 @@ import { getTabGroups } from "../helpers/storage.js";
   const tabGroups = await getTabGroups();
   console.log(tabGroups);
 
-  // get all tabs from all tab groups
-  const tabs = Object.values(tabGroups).flatMap((tabGroup) => tabGroup.tabs);
-  for (const tab of tabs) {
-    const item = createListItem(tab);
-    content.appendChild(item);
+  for (const [id, tabGroup] of Object.entries(tabGroups)) {
+    console.log(id, tabGroup);
+    const el = createTabGroup(tabGroup);
+    content.appendChild(el);
   }
 })();
