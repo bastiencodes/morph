@@ -34,6 +34,11 @@ function createTabActions(id, tabs) {
 
   const deleteBtn = document.createElement("button");
   deleteBtn.innerText = "Delete all";
+  deleteBtn.addEventListener("click", async () => {
+    if (confirm("Are you sure you want to delete those tabs?")) {
+      await deleteTabGroup(id, deleteBtn);
+    }
+  });
 
   div.append(restoreBtn, deleteBtn);
 
