@@ -1,4 +1,4 @@
-import { displayList } from "./helpers/tabs.js";
+import { sendTabs } from "./helpers/tabs.js";
 
 chrome.runtime.onInstalled.addListener((details) => {
   console.log("Extension installed!");
@@ -12,12 +12,5 @@ chrome.action.onClicked.addListener(async (tab) => {
   const tabs = await chrome.tabs.query({ windowId });
   console.log(tabs);
 
-  const urls = tabs.map((tab) => tab.url);
-  await chrome.windows.create({ url: urls });
-
-  // close window and all tabs inside it
-  await chrome.windows.remove(windowId);
-
-  // open list view (if not already opened)
-  await displayList();
+  await sendTabs(tabs);
 });
