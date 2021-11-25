@@ -42,3 +42,9 @@ export async function sendTabs(tabs) {
   // 3. Display Morph
   await displayList();
 }
+
+export async function getAllTabsInWindow(currentTab) {
+  const { windowId } = currentTab;
+  const tabs = await chrome.tabs.query({ windowId });
+  return tabs;
+}
