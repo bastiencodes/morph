@@ -1,13 +1,16 @@
+import { getTabGroups } from "../helpers/storage.js";
+
 // Content scripts are files that run in the context of web pages
 (async () => {
   console.log("Hi from list view!");
 
-  // TODO: how come this works in a content script?
-  const window = await chrome.windows.getCurrent({ populate: true });
-  console.log(window);
-
   const content = document.getElementById("content");
-  const { tabs } = window;
+
+  const tabGroups = await getTabGroups();
+  console.log(tabGroups);
+
+  // get all tabs from all tab groups
+  const tabs = Object.values(tabGroups).flatMap((tabGroup) => tabGroup.tabs);
   for (const tab of tabs) {
     const item = createListItem(tab);
     content.appendChild(item);
