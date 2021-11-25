@@ -14,3 +14,9 @@ export function createTabGroup(tabs) {
 export async function saveTabGroup(tabGroup) {
   await chrome.storage.local.set({ [tabGroup.id]: tabGroup });
 }
+
+export async function getTabGroups() {
+  // Note: use null to get everything!
+  const tabGroups = await chrome.storage.local.get(null);
+  return tabGroups;
+}
