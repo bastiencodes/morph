@@ -24,7 +24,8 @@ async function storeTabs(tabs) {
 }
 
 async function closeTabs(tabs) {
-  console.log("TODO: Closing tabs!");
+  const tabIds = tabs.map((tab) => tab.id);
+  await chrome.tabs.remove(tabIds);
 }
 
 export async function sendTabs(tabs) {
