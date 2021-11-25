@@ -20,3 +20,7 @@ export async function getTabGroups() {
   const tabGroups = await chrome.storage.local.get(null);
   return tabGroups;
 }
+
+export async function removeTabGroup(id) {
+  await chrome.storage.local.remove(id);
+}
