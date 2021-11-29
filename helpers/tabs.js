@@ -1,4 +1,5 @@
 import { LIST_VIEW_PATH } from "./constants.js";
+import { updateMenuItems } from "./menu.js";
 import { createTabGroup, saveTabGroup } from "./storage.js";
 
 async function bringTabToForeground(tab) {
@@ -90,4 +91,11 @@ export function isTabMostRight(tabId, tabs) {
 export function isOnlyTabInWindow(tabId, tabs) {
   const tab = findTab(tabId, tabs);
   return tab && tabs.length === 1;
+}
+
+export function createTabListener() {
+  return async function callback({ tabId, windowId }) {
+    console.log("onActivated", `tabId ${tabId}`, `windowId ${windowId}`);
+    await updateMenuItems(tabId, windowId);
+  };
 }

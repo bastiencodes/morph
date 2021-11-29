@@ -4,7 +4,11 @@ import {
   createMenuListener,
   updateMenuItems,
 } from "./helpers/menu.js";
-import { getActiveTabInCurrentWindow, sendAll } from "./helpers/tabs.js";
+import {
+  createTabListener,
+  getActiveTabInCurrentWindow,
+  sendAll,
+} from "./helpers/tabs.js";
 
 chrome.runtime.onInstalled.addListener(async (details) => {
   console.log("Extension installed!");
@@ -19,6 +23,9 @@ chrome.runtime.onInstalled.addListener(async (details) => {
 
 const menuListener = createMenuListener();
 chrome.contextMenus.onClicked.addListener(menuListener);
+
+const tabListener = createTabListener();
+chrome.tabs.onActivated.addListener(tabListener);
 
 chrome.action.onClicked.addListener(async (currentTab) => {
   console.log(currentTab);
