@@ -2,14 +2,19 @@ import {
   createMenus,
   createToolbarMenu,
   createMenuListener,
+  updateMenuItems,
 } from "./helpers/menu.js";
-import { sendAll } from "./helpers/tabs.js";
+import { getActiveTabInCurrentWindow, sendAll } from "./helpers/tabs.js";
 
-chrome.runtime.onInstalled.addListener((details) => {
+chrome.runtime.onInstalled.addListener(async (details) => {
   console.log("Extension installed!");
   console.log("Details", details);
   createMenus();
   createToolbarMenu();
+
+  const activeTab = await getActiveTabInCurrentWindow();
+  const { id, windowId } = activeTab;
+  updateMenuItems(id, windowId);
 });
 
 const menuListener = createMenuListener();

@@ -21,6 +21,8 @@ import {
   TITLE_EXCLUDE,
   TITLE_HELP,
 } from "./constants.js";
+import { isOnlyTabInWindow, isTabMostLeft, isTabMostRight } from "./tabs.js";
+import { getAllWindows, isOnlyWindow } from "./windows.js";
 
 function createMenuItem(id, title, contexts) {
   chrome.contextMenus.create({ id, title, contexts });
@@ -180,4 +182,22 @@ function toggleMenuItem(condition, id) {
     return;
   }
   enableMenuItem(id);
+}
+
+export async function updateMenuItems(tabId, windowId) {
+  // all tabs in window
+  const tabs = await chrome.tabs.query({ windowId });
+
+  // most left
+  toggleMenuItem(isTabMostLeft(tabId, tabs), ID_SEND_LEFT);
+
+  // most right
+  toggleMenuItem(isTabMostRight(tabId, tabs), ID_SEND_RIGHT);
+
+  // just one tab in window
+  toggleMenuItem(isOnlyTabInWindow(tabId, tabs), ID_SEND_EXCEPT);
+
+  // just one window
+  const windows = await getAllWindows();
+  toggleMenuItem(isOnlyWindow(windowId, windows), ID_SEND_ALL_WINDOWS);
 }
