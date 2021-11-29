@@ -30,20 +30,30 @@ function createSeparator(id) {
   chrome.contextMenus.create({ id, type: "separator", contexts: ["all"] });
 }
 
-export function createContextMenu() {
-  createMenuItem(ID_DISPLAY, TITLE_DISPLAY);
-  createMenuItem(ID_SEND_ALL, TITLE_SEND_ALL);
-  createSeparator(ID_SEPARATOR_1);
+function createContextMenu(prefix) {
+  createMenuItem(`${prefix}/${ID_DISPLAY}`, TITLE_DISPLAY);
+  createMenuItem(`${prefix}/${ID_SEND_ALL}`, TITLE_SEND_ALL);
+  createSeparator(`${prefix}/${ID_SEPARATOR_1}`);
 
-  createMenuItem(ID_SEND_ONLY, TITLE_SEND_ONLY);
-  createMenuItem(ID_SEND_EXCEPT, TITLE_SEND_EXCEPT);
-  createMenuItem(ID_SEND_LEFT, TITLE_SEND_LEFT);
-  createMenuItem(ID_SEND_RIGHT, TITLE_SEND_RIGHT);
-  createMenuItem(ID_SEND_ALL_WINDOWS, TITLE_SEND_ALL_WINDOWS);
-  createSeparator(ID_SEPARATOR_2);
+  createMenuItem(`${prefix}/${ID_SEND_ONLY}`, TITLE_SEND_ONLY);
+  createMenuItem(`${prefix}/${ID_SEND_EXCEPT}`, TITLE_SEND_EXCEPT);
+  createMenuItem(`${prefix}/${ID_SEND_LEFT}`, TITLE_SEND_LEFT);
+  createMenuItem(`${prefix}/${ID_SEND_RIGHT}`, TITLE_SEND_RIGHT);
+  createMenuItem(`${prefix}/${ID_SEND_ALL_WINDOWS}`, TITLE_SEND_ALL_WINDOWS);
+  createSeparator(`${prefix}/${ID_SEPARATOR_2}`);
 
-  createMenuItem(ID_EXCLUDE, TITLE_EXCLUDE);
-  createSeparator(ID_SEPARATOR_3);
+  createMenuItem(`${prefix}/${ID_EXCLUDE}`, TITLE_EXCLUDE);
+  createSeparator(`${prefix}/${ID_SEPARATOR_3}`);
 
-  createMenuItem(ID_HELP, TITLE_HELP);
+  createMenuItem(`${prefix}/${ID_HELP}`, TITLE_HELP);
+}
+
+export function createMenus() {
+  const prefix = "not_action";
+  createContextMenu(prefix);
+}
+
+export function createToolbarMenu() {
+  const prefix = "action";
+  createContextMenu(prefix);
 }
