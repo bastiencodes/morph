@@ -4,6 +4,11 @@ function findWindow(windowId, windows) {
   return window;
 }
 
+export async function getAllWindows() {
+  const windows = await chrome.windows.getAll();
+  return windows;
+}
+
 export function isOnlyWindow(windowId, windows) {
   const window = findWindow(windowId, windows);
   return window && windows.length === 1;
