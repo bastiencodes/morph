@@ -173,3 +173,11 @@ function disableMenuItem(id) {
   chrome.contextMenus.update(`not_action/${id}`, { enabled: false });
   chrome.contextMenus.update(`action/${id}`, { enabled: false });
 }
+
+function toggleMenuItem(condition, id) {
+  if (condition) {
+    disableMenuItem(id);
+    return;
+  }
+  enableMenuItem(id);
+}
