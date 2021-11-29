@@ -1,3 +1,6 @@
+import { updateMenuItems } from "./menu.js";
+import { getActiveTabInWindow } from "./tabs.js";
+
 function findWindow(windowId, windows) {
   const window = windows.find((window) => window.id === windowId);
   if (!window) throw new Error("No window found");
@@ -12,4 +15,15 @@ export async function getAllWindows() {
 export function isOnlyWindow(windowId, windows) {
   const window = findWindow(windowId, windows);
   return window && windows.length === 1;
+}
+
+export function createWindowListener() {
+  return async function callback(windowId) {
+    console.log("onFocusChanged", `windowId ${windowId}`);
+
+    if (windowId !== chrome.windows.WINDOW_ID_NONE) {
+      const activeTab = await getActiveTabInWindow(windowId);
+      await updateMenuItems(activeTab.id, windowId);
+    }
+  };
 }

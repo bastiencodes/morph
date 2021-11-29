@@ -66,6 +66,19 @@ export async function getActiveTabInCurrentWindow() {
   return activeTab;
 }
 
+export async function getActiveTabInWindow(windowId) {
+  const tabs = await chrome.tabs.query({
+    active: true,
+    highlighted: true,
+    windowId,
+  });
+  console.log("windowId", windowId, "tabs", tabs);
+  if (tabs.length !== 1)
+    throw new Error("Should only have 1 active and highlighted tab.");
+  const activeTab = tabs[0];
+  return activeTab;
+}
+
 export async function sendAll(currentTab) {
   const tabs = await getAllTabsInWindow(currentTab);
   return sendTabs(tabs);

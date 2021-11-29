@@ -9,6 +9,7 @@ import {
   getActiveTabInCurrentWindow,
   sendAll,
 } from "./helpers/tabs.js";
+import { createWindowListener } from "./helpers/windows.js";
 
 chrome.runtime.onInstalled.addListener(async (details) => {
   console.log("Extension installed!");
@@ -26,6 +27,9 @@ chrome.contextMenus.onClicked.addListener(menuListener);
 
 const tabListener = createTabListener();
 chrome.tabs.onActivated.addListener(tabListener);
+
+const windowListener = createWindowListener();
+chrome.windows.onFocusChanged.addListener(windowListener);
 
 chrome.action.onClicked.addListener(async (currentTab) => {
   console.log(currentTab);
