@@ -23,11 +23,11 @@ import {
 } from "./constants.js";
 
 function createMenuItem(id, title) {
-  chrome.contextMenus.create({ id, title });
+  chrome.contextMenus.create({ id, title, contexts: ["all"] });
 }
 
 function createSeparator(id) {
-  chrome.contextMenus.create({ id, type: "separator" });
+  chrome.contextMenus.create({ id, type: "separator", contexts: ["all"] });
 }
 
 export function createContextMenu() {
