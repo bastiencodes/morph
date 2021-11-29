@@ -8,7 +8,7 @@ async function bringTabToForeground(tab) {
   await chrome.tabs.highlight({ tabs: index, windowId });
 }
 
-async function displayList() {
+export async function displayList() {
   const listViewURL = chrome.runtime.getURL(LIST_VIEW_PATH);
 
   const listViewTabs = await chrome.tabs.query({ url: listViewURL });
@@ -82,6 +82,36 @@ export async function getActiveTabInWindow(windowId) {
 export async function sendAll(currentTab) {
   const tabs = await getAllTabsInWindow(currentTab);
   return sendTabs(tabs);
+}
+
+export async function sendOnly(currentTab) {
+  const tabs = [currentTab];
+  return sendTabs(tabs);
+}
+
+export async function sendExcept(currentTab) {
+  const results = await getAllTabsInWindow(currentTab);
+  const tabs = results.filter((tab) => tab.index !== currentTab.index);
+  return sendTabs(tabs);
+}
+
+export async function sendLeft(currentTab) {
+  const results = await getAllTabsInWindow(currentTab);
+  const tabs = results.filter((tab) => tab.index < currentTab.index);
+  return sendTabs(tabs);
+}
+
+export async function sendRight(currentTab) {
+  const results = await getAllTabsInWindow(currentTab);
+  const tabs = results.filter((tab) => tab.index > currentTab.index);
+  return sendTabs(tabs);
+}
+
+export async function sendAllWindows() {
+  const windows = await chrome.windows.getAll({ populate: true });
+  for (const window of windows) {
+    await sendTabs(window.tabs);
+  }
 }
 
 // helpers to determine tab position

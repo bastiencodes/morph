@@ -21,7 +21,18 @@ import {
   TITLE_EXCLUDE,
   TITLE_HELP,
 } from "./constants.js";
-import { isOnlyTabInWindow, isTabMostLeft, isTabMostRight } from "./tabs.js";
+import {
+  displayList,
+  isOnlyTabInWindow,
+  isTabMostLeft,
+  isTabMostRight,
+  sendAll,
+  sendAllWindows,
+  sendExcept,
+  sendLeft,
+  sendOnly,
+  sendRight,
+} from "./tabs.js";
 import { getAllWindows, isOnlyWindow } from "./windows.js";
 
 function createMenuItem(id, title, contexts) {
@@ -114,42 +125,42 @@ function stripPrefix(menuItemId) {
 }
 
 export function createMenuListener() {
-  return function callback(info, tab) {
+  return async function callback(info, currentTab) {
     const menuItemId = stripPrefix(info.menuItemId);
 
     switch (menuItemId) {
       case ID_DISPLAY: {
-        console.log(TITLE_DISPLAY);
+        await displayList();
         break;
       }
 
       case ID_SEND_ALL: {
-        console.log(TITLE_SEND_ALL);
+        await sendAll(currentTab);
         break;
       }
 
       case ID_SEND_ONLY: {
-        console.log(TITLE_SEND_ONLY);
+        await sendOnly(currentTab);
         break;
       }
 
       case ID_SEND_EXCEPT: {
-        console.log(TITLE_SEND_EXCEPT);
+        await sendExcept(currentTab);
         break;
       }
 
       case ID_SEND_LEFT: {
-        console.log(TITLE_SEND_LEFT);
+        await sendLeft(currentTab);
         break;
       }
 
       case ID_SEND_RIGHT: {
-        console.log(TITLE_SEND_RIGHT);
+        await sendRight(currentTab);
         break;
       }
 
       case ID_SEND_ALL_WINDOWS: {
-        console.log(TITLE_SEND_ALL_WINDOWS);
+        sendAllWindows();
         break;
       }
 
