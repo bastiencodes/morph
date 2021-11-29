@@ -21,17 +21,17 @@ async function deleteTabGroup(id, btn) {
   el.remove();
 }
 
-function createTabActions(id, tabs) {
-  const div = document.createElement("div");
-  div.className = "tabActions";
-
+function createRestoreButton(id, tabs) {
   const restoreBtn = document.createElement("button");
   restoreBtn.innerText = "Restore all";
   restoreBtn.addEventListener("click", async () => {
     await openTabs(tabs);
     await deleteTabGroup(id, restoreBtn);
   });
+  return restoreBtn;
+}
 
+function createDeleteButton(id) {
   const deleteBtn = document.createElement("button");
   deleteBtn.innerText = "Delete all";
   deleteBtn.addEventListener("click", async () => {
@@ -39,6 +39,15 @@ function createTabActions(id, tabs) {
       await deleteTabGroup(id, deleteBtn);
     }
   });
+  return deleteBtn;
+}
+
+function createTabActions(id, tabs) {
+  const div = document.createElement("div");
+  div.className = "tabActions";
+
+  const restoreBtn = createRestoreButton(id, tabs);
+  const deleteBtn = createDeleteButton(id);
 
   div.append(restoreBtn, deleteBtn);
 
