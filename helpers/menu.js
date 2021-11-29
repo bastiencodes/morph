@@ -50,6 +50,25 @@ function createContextMenu(prefix, contexts) {
   createSeparator(`${prefix}/${ID_SEPARATOR_3}`, contexts);
 
   createMenuItem(`${prefix}/${ID_HELP}`, TITLE_HELP, contexts);
+
+  // note: we need to return ids to be able to set their parent for toolbar menu
+  return [
+    `${prefix}/${ID_SEND_ALL}`,
+    `${prefix}/${ID_DISPLAY}`,
+    `${prefix}/${ID_SEPARATOR_1}`,
+
+    `${prefix}/${ID_SEND_ONLY}`,
+    `${prefix}/${ID_SEND_EXCEPT}`,
+    `${prefix}/${ID_SEND_LEFT}`,
+    `${prefix}/${ID_SEND_RIGHT}`,
+    `${prefix}/${ID_SEND_ALL_WINDOWS}`,
+    `${prefix}/${ID_SEPARATOR_2}`,
+
+    `${prefix}/${ID_EXCLUDE}`,
+    `${prefix}/${ID_SEPARATOR_3}`,
+
+    `${prefix}/${ID_HELP}`,
+  ];
 }
 
 export function createMenus() {
@@ -68,8 +87,20 @@ export function createMenus() {
   createContextMenu(prefix, contexts);
 }
 
+function setParent(parentId, itemIds) {
+  for (const itemId of itemIds) {
+    chrome.contextMenus.update(itemId, { parentId });
+  }
+}
+
 export function createToolbarMenu() {
   const prefix = "action";
   const contexts = ["action"];
-  createContextMenu(prefix, contexts);
+
+  const PARENT_ID = "toolbar";
+  // create parent menu item
+  createMenuItem(PARENT_ID, "Morph", contexts);
+
+  const itemIds = createContextMenu(prefix, contexts);
+  setParent(PARENT_ID, itemIds);
 }
