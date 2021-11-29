@@ -163,3 +163,13 @@ export function createMenuListener() {
     }
   };
 }
+
+function enableMenuItem(id) {
+  chrome.contextMenus.update(`not_action/${id}`, { enabled: true });
+  chrome.contextMenus.update(`action/${id}`, { enabled: true });
+}
+
+function disableMenuItem(id) {
+  chrome.contextMenus.update(`not_action/${id}`, { enabled: false });
+  chrome.contextMenus.update(`action/${id}`, { enabled: false });
+}
