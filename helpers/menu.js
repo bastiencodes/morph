@@ -22,38 +22,54 @@ import {
   TITLE_HELP,
 } from "./constants.js";
 
-function createMenuItem(id, title) {
-  chrome.contextMenus.create({ id, title, contexts: ["all"] });
+function createMenuItem(id, title, contexts) {
+  chrome.contextMenus.create({ id, title, contexts });
 }
 
-function createSeparator(id) {
-  chrome.contextMenus.create({ id, type: "separator", contexts: ["all"] });
+function createSeparator(id, contexts) {
+  chrome.contextMenus.create({ id, type: "separator", contexts });
 }
 
-function createContextMenu(prefix) {
-  createMenuItem(`${prefix}/${ID_DISPLAY}`, TITLE_DISPLAY);
-  createMenuItem(`${prefix}/${ID_SEND_ALL}`, TITLE_SEND_ALL);
-  createSeparator(`${prefix}/${ID_SEPARATOR_1}`);
+function createContextMenu(prefix, contexts) {
+  createMenuItem(`${prefix}/${ID_DISPLAY}`, TITLE_DISPLAY, contexts);
+  createMenuItem(`${prefix}/${ID_SEND_ALL}`, TITLE_SEND_ALL, contexts);
+  createSeparator(`${prefix}/${ID_SEPARATOR_1}`, contexts);
 
-  createMenuItem(`${prefix}/${ID_SEND_ONLY}`, TITLE_SEND_ONLY);
-  createMenuItem(`${prefix}/${ID_SEND_EXCEPT}`, TITLE_SEND_EXCEPT);
-  createMenuItem(`${prefix}/${ID_SEND_LEFT}`, TITLE_SEND_LEFT);
-  createMenuItem(`${prefix}/${ID_SEND_RIGHT}`, TITLE_SEND_RIGHT);
-  createMenuItem(`${prefix}/${ID_SEND_ALL_WINDOWS}`, TITLE_SEND_ALL_WINDOWS);
-  createSeparator(`${prefix}/${ID_SEPARATOR_2}`);
+  createMenuItem(`${prefix}/${ID_SEND_ONLY}`, TITLE_SEND_ONLY, contexts);
+  createMenuItem(`${prefix}/${ID_SEND_EXCEPT}`, TITLE_SEND_EXCEPT, contexts);
+  createMenuItem(`${prefix}/${ID_SEND_LEFT}`, TITLE_SEND_LEFT, contexts);
+  createMenuItem(`${prefix}/${ID_SEND_RIGHT}`, TITLE_SEND_RIGHT, contexts);
+  createMenuItem(
+    `${prefix}/${ID_SEND_ALL_WINDOWS}`,
+    TITLE_SEND_ALL_WINDOWS,
+    contexts
+  );
+  createSeparator(`${prefix}/${ID_SEPARATOR_2}`, contexts);
 
-  createMenuItem(`${prefix}/${ID_EXCLUDE}`, TITLE_EXCLUDE);
-  createSeparator(`${prefix}/${ID_SEPARATOR_3}`);
+  createMenuItem(`${prefix}/${ID_EXCLUDE}`, TITLE_EXCLUDE, contexts);
+  createSeparator(`${prefix}/${ID_SEPARATOR_3}`, contexts);
 
-  createMenuItem(`${prefix}/${ID_HELP}`, TITLE_HELP);
+  createMenuItem(`${prefix}/${ID_HELP}`, TITLE_HELP, contexts);
 }
 
 export function createMenus() {
   const prefix = "not_action";
-  createContextMenu(prefix);
+  // all contexts but 'action'
+  const contexts = [
+    "page",
+    "frame",
+    "selection",
+    "link",
+    "editable",
+    "image",
+    "video",
+    "audio",
+  ];
+  createContextMenu(prefix, contexts);
 }
 
 export function createToolbarMenu() {
   const prefix = "action";
-  createContextMenu(prefix);
+  const contexts = ["action"];
+  createContextMenu(prefix, contexts);
 }
