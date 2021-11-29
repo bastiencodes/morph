@@ -7,5 +7,5 @@
     "service_worker": "background.js",
     "type": "module"
   },
-  "permissions": ["tabs", "storage"]
+  "permissions": ["tabs", "storage", "contextMenus"]
 }
