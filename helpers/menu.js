@@ -1,26 +1,26 @@
-const TITLE_DISPLAY = "Display Morph";
-const TITLE_SEND_ALL = "Send all tabs to Morph";
-const TITLE_SEND_ONLY = "Send only this tab to Morph";
-const TITLE_SEND_EXCEPT = "Send all tabs except this tab to Morph";
-const TITLE_SEND_LEFT = "Send tabs on the left to Morph";
-const TITLE_SEND_RIGHT = "Send tabs on the right to Morph";
-const TITLE_SEND_ALL_WINDOWS = "Send all tabs from all windows to Morph";
-const TITLE_EXCLUDE = "Exclude host from Morph";
-const TITLE_HELP = "Help";
-
-const ID_DISPLAY = "display";
-const ID_SEND_ALL = "send_all";
-const ID_SEND_ONLY = "send_only";
-const ID_SEND_EXCEPT = "send_except";
-const ID_SEND_LEFT = "send_left";
-const ID_SEND_RIGHT = "send_right";
-const ID_SEND_ALL_WINDOWS = "send_all_windows";
-const ID_EXCLUDE = "exclude";
-const ID_HELP = "help";
-
-const ID_SEPARATOR_1 = "separator_1";
-const ID_SEPARATOR_2 = "separator_2";
-const ID_SEPARATOR_3 = "separator_3";
+import {
+  ID_DISPLAY,
+  ID_SEND_ALL,
+  ID_SEND_ONLY,
+  ID_SEND_EXCEPT,
+  ID_SEND_LEFT,
+  ID_SEND_RIGHT,
+  ID_SEND_ALL_WINDOWS,
+  ID_EXCLUDE,
+  ID_HELP,
+  ID_SEPARATOR_1,
+  ID_SEPARATOR_2,
+  ID_SEPARATOR_3,
+  TITLE_DISPLAY,
+  TITLE_SEND_ALL,
+  TITLE_SEND_ONLY,
+  TITLE_SEND_EXCEPT,
+  TITLE_SEND_LEFT,
+  TITLE_SEND_RIGHT,
+  TITLE_SEND_ALL_WINDOWS,
+  TITLE_EXCLUDE,
+  TITLE_HELP,
+} from "./constants.js";
 
 export function createContextMenu() {
   chrome.contextMenus.create({ id: ID_DISPLAY, title: TITLE_DISPLAY });
