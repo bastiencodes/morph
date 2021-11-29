@@ -104,3 +104,62 @@ export function createToolbarMenu() {
   const itemIds = createContextMenu(prefix, contexts);
   setParent(PARENT_ID, itemIds);
 }
+
+function stripPrefix(menuItemId) {
+  // strip prefix to be able to call listener for both context menus
+  const pos = menuItemId.indexOf("/");
+  return menuItemId.substring(pos + 1);
+}
+
+export function createMenuListener() {
+  return function callback(info, tab) {
+    const menuItemId = stripPrefix(info.menuItemId);
+
+    switch (menuItemId) {
+      case ID_DISPLAY: {
+        console.log(TITLE_DISPLAY);
+        break;
+      }
+
+      case ID_SEND_ALL: {
+        console.log(TITLE_SEND_ALL);
+        break;
+      }
+
+      case ID_SEND_ONLY: {
+        console.log(TITLE_SEND_ONLY);
+        break;
+      }
+
+      case ID_SEND_EXCEPT: {
+        console.log(TITLE_SEND_EXCEPT);
+        break;
+      }
+
+      case ID_SEND_LEFT: {
+        console.log(TITLE_SEND_LEFT);
+        break;
+      }
+
+      case ID_SEND_RIGHT: {
+        console.log(TITLE_SEND_RIGHT);
+        break;
+      }
+
+      case ID_SEND_ALL_WINDOWS: {
+        console.log(TITLE_SEND_ALL_WINDOWS);
+        break;
+      }
+
+      case ID_EXCLUDE: {
+        console.log(TITLE_EXCLUDE);
+        break;
+      }
+
+      case ID_HELP: {
+        console.log(TITLE_HELP);
+        break;
+      }
+    }
+  };
+}
