@@ -1,4 +1,4 @@
-import { removeTabGroup } from "../helpers/storage.js";
+import { getTabGroup, removeTabGroup, toggleLock } from "../helpers/storage.js";
 import { openTabs } from "../helpers/tabs.js";
 
 // tab header
@@ -42,14 +42,40 @@ function createDeleteButton(id) {
   return deleteBtn;
 }
 
-function createTabActions(id, tabs) {
+function updateLockButtonText(btn, isLocked) {
+  btn.innerText = `${!isLocked ? "Lock" : "Unlock"} this tab group`;
+}
+
+function toggleDeleteAllButton(lockBtn, isLocked) {
+  const deleteAllBtn = lockBtn.previousElementSibling;
+  deleteAllBtn.disabled = isLocked;
+}
+
+function createLockButton(tabGroup) {
+  const lockBtn = document.createElement("button");
+  updateLockButtonText(lockBtn, tabGroup.isLocked);
+  return lockBtn;
+}
+
+function createTabActions(tabGroup) {
+  const { id, tabs } = tabGroup;
   const div = document.createElement("div");
   div.className = "tabActions";
 
   const restoreBtn = createRestoreButton(id, tabs);
   const deleteBtn = createDeleteButton(id);
+  const lockBtn = createLockButton(tabGroup);
 
-  div.append(restoreBtn, deleteBtn);
+  div.append(restoreBtn, deleteBtn, lockBtn);
+
+  toggleDeleteAllButton(lockBtn, tabGroup.isLocked);
+
+  lockBtn.addEventListener("click", async () => {
+    const tabGroup = await getTabGroup(id);
+    await toggleLock(tabGroup, !tabGroup.isLocked);
+    updateLockButtonText(lockBtn, !tabGroup.isLocked);
+    toggleDeleteAllButton(lockBtn, !tabGroup.isLocked);
+  });
 
   return div;
 }
@@ -64,7 +90,7 @@ function createTabHeader(tabGroup) {
 
   const wrapper = document.createElement("div");
   const tabDate = createTabDate(createdAt);
-  const tabActions = createTabActions(id, tabs);
+  const tabActions = createTabActions(tabGroup);
   wrapper.append(tabDate, tabActions);
 
   div.append(tabCount, wrapper);
