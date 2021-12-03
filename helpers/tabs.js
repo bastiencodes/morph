@@ -49,6 +49,7 @@ async function sendTabs(tabs) {
   await closeTabs(tabs);
 
   // 3. Display Morph
+  // TODO: issue sometimes when list is opened before tabs have fully loaded
   await displayList();
 }
 
