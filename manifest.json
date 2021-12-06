@@ -7,5 +7,6 @@
     "service_worker": "background.js",
     "type": "module"
   },
+  "options_page": "options/options.html",
   "permissions": ["tabs", "storage", "contextMenus"]
 }

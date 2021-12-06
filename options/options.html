@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Morph options</title>
+  </head>
+  <body>
+    <h1>Options</h1>
+    <div>
+      <label for="restore-tab-group-select">
+        When a tab group is restored, send the tabs to:
+      </label>
+
+      <select id="restore-tab-group-select">
+        <option value="new_window_unless">
+          A new window, unless Morph is the only tab in the current window
+        </option>
+        <option value="new_window">Always a new window</option>
+        <option value="current_window">Always the current window</option>
+      </select>
+    </div>
+
+    <script type="module" src="options.js"></script>
+  </body>
+</html>
