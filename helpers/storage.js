@@ -33,6 +33,13 @@ export async function toggleLock(tabGroup, isLocked) {
   await saveTabGroup(update);
 }
 
+export async function toggleStar(tabGroup, isStar) {
+  if (isStar === tabGroup.isStar)
+    throw new Error("Tab group already stared / unstarred.");
+  const update = { ...tabGroup, isStar };
+  await saveTabGroup(update);
+}
+
 export async function removeTabGroup(id) {
   await chrome.storage.local.remove(id);
 }
