@@ -23,3 +23,8 @@ export const TITLE_SEND_RIGHT = "Send tabs on the right to Morph";
 export const TITLE_SEND_ALL_WINDOWS = "Send all tabs from all windows to Morph";
 export const TITLE_EXCLUDE = "Exclude host from Morph";
 export const TITLE_HELP = "Help";
+
+// options
+export const OPTION_NEW_WINDOW_UNLESS = "new_window_unless";
+export const OPTION_NEW_WINDOW = "new_window";
+export const OPTION_CURRENT_WINDOW = "current_window";

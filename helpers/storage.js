@@ -1,3 +1,5 @@
+import { OPTION_NEW_WINDOW_UNLESS } from "./constants.js";
+
 const generateId = () => "_" + Math.random().toString(36).substr(2, 9);
 
 export function createTabGroup(tabs) {
@@ -42,4 +44,15 @@ export async function toggleStar(tabGroup, isStar) {
 
 export async function removeTabGroup(id) {
   await chrome.storage.local.remove(id);
+}
+
+export async function configureOptions() {
+  const defaultOptions = {
+    RESTORE_TAB_GROUP_IN: OPTION_NEW_WINDOW_UNLESS,
+    SEND_PINNED_TABS: false,
+    DISPLAY_MORPH_ON_STARTUP: true,
+    REMOVE_TABS_FROM_LIST_ON_RESTORE: true,
+    ALLOW_DUPLICATES: true,
+  };
+  await chrome.storage.local.set({ options: defaultOptions });
 }

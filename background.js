@@ -4,6 +4,7 @@ import {
   createMenuListener,
   updateMenuItems,
 } from "./helpers/menu.js";
+import { configureOptions } from "./helpers/storage.js";
 import {
   createTabListener,
   getActiveTabInCurrentWindow,
@@ -14,12 +15,17 @@ import { createWindowListener } from "./helpers/windows.js";
 chrome.runtime.onInstalled.addListener(async (details) => {
   console.log("Extension installed!");
   console.log("Details", details);
+
+  if (details.reason === "install") {
+    await configureOptions();
+  }
+
   createMenus();
   createToolbarMenu();
 
   const activeTab = await getActiveTabInCurrentWindow();
   const { id, windowId } = activeTab;
-  updateMenuItems(id, windowId);
+  await updateMenuItems(id, windowId);
 });
 
 const menuListener = createMenuListener();
