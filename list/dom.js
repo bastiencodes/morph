@@ -1,4 +1,9 @@
-import { getTabGroup, removeTabGroup, toggleLock } from "../helpers/storage.js";
+import {
+  getTabGroup,
+  removeTabGroup,
+  toggleLock,
+  toggleStar,
+} from "../helpers/storage.js";
 import { openTabs } from "../helpers/tabs.js";
 
 // tab header
@@ -57,6 +62,23 @@ function createLockButton(tabGroup) {
   return lockBtn;
 }
 
+function updateStarButtonText(btn, isStar) {
+  btn.innerText = `${!isStar ? "Star" : "Unstar"} this tab group`;
+}
+
+function createStarButton(tabGroup) {
+  const { id, isStar } = tabGroup;
+  const starBtn = document.createElement("button");
+  updateStarButtonText(starBtn, isStar);
+  starBtn.addEventListener("click", async () => {
+    const tabGroup = await getTabGroup(id);
+    await toggleStar(tabGroup, !tabGroup.isStar);
+    updateStarButtonText(starBtn, !tabGroup.isStar);
+    // TODO: reorder tab groups!!
+  });
+  return starBtn;
+}
+
 function createTabActions(tabGroup) {
   const { id, tabs } = tabGroup;
   const div = document.createElement("div");
@@ -65,8 +87,9 @@ function createTabActions(tabGroup) {
   const restoreBtn = createRestoreButton(id, tabs);
   const deleteBtn = createDeleteButton(id);
   const lockBtn = createLockButton(tabGroup);
+  const starBtn = createStarButton(tabGroup);
 
-  div.append(restoreBtn, deleteBtn, lockBtn);
+  div.append(restoreBtn, deleteBtn, lockBtn, starBtn);
 
   toggleDeleteAllButton(lockBtn, tabGroup.isLocked);
 
