@@ -66,8 +66,8 @@ function createContextMenu(prefix, contexts) {
 
   // note: we need to return ids to be able to set their parent for toolbar menu
   return [
-    `${prefix}/${ID_SEND_ALL}`,
     `${prefix}/${ID_DISPLAY}`,
+    `${prefix}/${ID_SEND_ALL}`,
     `${prefix}/${ID_SEPARATOR_1}`,
 
     `${prefix}/${ID_SEND_ONLY}`,
