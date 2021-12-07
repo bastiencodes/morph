@@ -1,5 +1,6 @@
 import { LIST_VIEW_PATH } from "./constants.js";
 import { updateMenuItems } from "./menu.js";
+import { checkOptions } from "./options.js";
 import { createTabGroup, saveTabGroup } from "./storage.js";
 
 async function bringTabToForeground(tab) {
@@ -37,18 +38,25 @@ async function closeTabs(tabs) {
   await chrome.tabs.remove(tabIds);
 }
 
-async function sendTabs(tabs) {
-  // 1. Store tabs
-  await storeTabs(tabs);
+async function sendTabs(tabs, shouldCheckOptions = true) {
+  // 1. Check options (pinned tabs, duplicates)
+  let updatedTabs = tabs;
+
+  if (shouldCheckOptions) {
+    updatedTabs = await checkOptions(tabs);
+  }
+
+  // 2. Store tabs
+  await storeTabs(updatedTabs);
 
   // TODO: remove below
-  const urls = tabs.map((tab) => tab.url);
+  const urls = updatedTabs.map((tab) => tab.url);
   await chrome.windows.create({ url: urls });
 
-  // 2. Close tabs
-  await closeTabs(tabs);
+  // 3. Close tabs
+  await closeTabs(updatedTabs);
 
-  // 3. Display Morph
+  // 4. Display Morph
   // TODO: issue sometimes when list is opened before tabs have fully loaded
   await displayList();
 }
@@ -85,9 +93,10 @@ export async function sendAll(currentTab) {
   return sendTabs(tabs);
 }
 
+// ensure no checks if right clicking 'Send only this tab'
 export async function sendOnly(currentTab) {
   const tabs = [currentTab];
-  return sendTabs(tabs);
+  return sendTabs(tabs, false);
 }
 
 export async function sendExcept(currentTab) {
