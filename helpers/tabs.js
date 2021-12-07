@@ -1,7 +1,12 @@
-import { LIST_VIEW_PATH } from "./constants.js";
+import {
+  LIST_VIEW_PATH,
+  OPTION_CURRENT_WINDOW,
+  OPTION_NEW_WINDOW,
+  OPTION_NEW_WINDOW_UNLESS,
+} from "./constants.js";
 import { updateMenuItems } from "./menu.js";
 import { checkOptions } from "./options.js";
-import { createTabGroup, saveTabGroup } from "./storage.js";
+import { createTabGroup, getOptions, saveTabGroup } from "./storage.js";
 
 async function bringTabToForeground(tab) {
   const { windowId, index } = tab;
@@ -28,9 +33,52 @@ async function storeTabs(tabs) {
   await saveTabGroup(tabGroup);
 }
 
-export async function openTabs(tabs) {
+async function checkIfOnlyTabInCurrentWindow() {
+  const currentWindow = await chrome.windows.getCurrent();
+  const { tabs } = currentWindow;
+
+  // TODO: refactor below
+  const url = chrome.runtime.getURL("list/index.html");
+
+  return tabs.length === 1 && tabs[0].url === url;
+}
+
+async function openTabsInCurrentWindow(tabs) {
+  // if no windowId is provided, defaults to current window
+  // see https://developer.chrome.com/docs/extensions/reference/tabs/#method-create
+  for (const tab of tabs) {
+    await chrome.tabs.create({ url: tab.url, windowId: currentWindow.id });
+  }
+}
+
+async function openTabsInNewWindow(tabs) {
   const urls = tabs.map((tab) => tab.url);
   await chrome.windows.create({ url: urls });
+}
+
+export async function openTabs(tabs) {
+  const { RESTORE_TAB_GROUP_IN } = await getOptions();
+
+  switch (RESTORE_TAB_GROUP_IN) {
+    case OPTION_NEW_WINDOW_UNLESS: {
+      const isOnlyTabInCurrentWindow = await checkIfOnlyTabInCurrentWindow();
+      if (isOnlyTabInCurrentWindow) {
+        await openTabsInCurrentWindow(tabs);
+      }
+      await openTabsInNewWindow(tabs);
+      break;
+    }
+
+    case OPTION_NEW_WINDOW: {
+      await openTabsInNewWindow();
+      break;
+    }
+
+    case OPTION_CURRENT_WINDOW: {
+      await openTabsInCurrentWindow(tabs);
+      break;
+    }
+  }
 }
 
 async function closeTabs(tabs) {
