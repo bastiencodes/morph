@@ -19,7 +19,9 @@ export async function saveTabGroup(tabGroup) {
 
 export async function getTabGroups() {
   // Note: use null to get everything!
-  const tabGroups = await chrome.storage.local.get(null);
+  const results = await chrome.storage.local.get(null);
+  console.log("Results", results);
+  const { options, ...tabGroups } = results;
   return tabGroups;
 }
 
@@ -55,4 +57,9 @@ export async function configureOptions() {
     ALLOW_DUPLICATES: true,
   };
   await chrome.storage.local.set({ options: defaultOptions });
+}
+
+export async function getOptions() {
+  const result = await chrome.storage.local.get("options");
+  return result.options;
 }
