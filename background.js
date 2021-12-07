@@ -4,9 +4,10 @@ import {
   createMenuListener,
   updateMenuItems,
 } from "./helpers/menu.js";
-import { configureOptions } from "./helpers/storage.js";
+import { configureOptions, getOptions } from "./helpers/storage.js";
 import {
   createTabListener,
+  displayList,
   getActiveTabInCurrentWindow,
   sendAll,
 } from "./helpers/tabs.js";
@@ -26,6 +27,13 @@ chrome.runtime.onInstalled.addListener(async (details) => {
   const activeTab = await getActiveTabInCurrentWindow();
   const { id, windowId } = activeTab;
   await updateMenuItems(id, windowId);
+});
+
+chrome.runtime.onStartup.addListener(async () => {
+  const { DISPLAY_MORPH_ON_STARTUP } = await getOptions();
+  if (DISPLAY_MORPH_ON_STARTUP) {
+    await displayList();
+  }
 });
 
 const menuListener = createMenuListener();
