@@ -22,6 +22,44 @@
       </select>
     </div>
 
+    <div>
+      <label for="pinned-tabs-select">Pinned tabs:</label>
+      <select id="pinned-tabs-select">
+        <option value="false">Don't send pinned tabs to Morph</option>
+        <option value="true">Allow pinned tabs to be sent to Morph</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="startup-display-select">Startup:</label>
+      <select id="startup-display-select">
+        <option value="true">
+          Display Morph whenever you start your web browser for the first time
+        </option>
+        <option value="false">Do not open Morph automatically</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="remove-tabs-list-select"
+        >On clicking 'restore all' or restoring a single tab:</label
+      >
+      <select id="remove-tabs-list-select">
+        <option value="true">
+          Open the tab(s) and remove them from your Morph list
+        </option>
+        <option value="false">Keep them in your Morph list</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="allow-duplicates-select">Duplicates:</label>
+      <select id="allow-duplicates-select">
+        <option value="true">Allow duplicates</option>
+        <option value="false">Silently reject duplicates</option>
+      </select>
+    </div>
+
     <script type="module" src="options.js"></script>
   </body>
 </html>
