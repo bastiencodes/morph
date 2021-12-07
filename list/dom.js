@@ -1,4 +1,5 @@
 import {
+  getOptions,
   getTabGroup,
   removeTabGroup,
   toggleLock,
@@ -26,12 +27,16 @@ async function deleteTabGroup(id, btn) {
   el.remove();
 }
 
-function createRestoreButton(id, tabs) {
+function createRestoreButton(id, isLocked, tabs) {
   const restoreBtn = document.createElement("button");
   restoreBtn.innerText = "Restore all";
   restoreBtn.addEventListener("click", async () => {
     await openTabs(tabs);
-    await deleteTabGroup(id, restoreBtn);
+
+    const { REMOVE_TABS_FROM_LIST_ON_RESTORE } = await getOptions();
+    if (REMOVE_TABS_FROM_LIST_ON_RESTORE && !isLocked) {
+      await deleteTabGroup(id, restoreBtn);
+    }
   });
   return restoreBtn;
 }
@@ -80,11 +85,11 @@ function createStarButton(tabGroup) {
 }
 
 function createTabActions(tabGroup) {
-  const { id, tabs } = tabGroup;
+  const { id, isLocked, tabs } = tabGroup;
   const div = document.createElement("div");
   div.className = "tabActions";
 
-  const restoreBtn = createRestoreButton(id, tabs);
+  const restoreBtn = createRestoreButton(id, isLocked, tabs);
   const deleteBtn = createDeleteButton(id);
   const lockBtn = createLockButton(tabGroup);
   const starBtn = createStarButton(tabGroup);
