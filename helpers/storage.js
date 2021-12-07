@@ -63,3 +63,11 @@ export async function getOptions() {
   const result = await chrome.storage.local.get("options");
   return result.options;
 }
+
+export async function updateOption(name, value) {
+  console.log(name, value);
+  const options = await getOptions();
+  const updatedOptions = { ...options, [name]: value };
+  console.log(updatedOptions);
+  await chrome.storage.local.set({ options: updatedOptions });
+}
