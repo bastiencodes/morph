@@ -14,11 +14,16 @@ async function bringTabToForeground(tab) {
   await chrome.tabs.highlight({ tabs: index, windowId });
 }
 
+async function findTabByURL(url) {
+  // returns empty array if no tabs match
+  const tabs = await chrome.tabs.query({ url });
+  const tab = tabs[0];
+  return tab;
+}
+
 export async function displayList() {
   const listViewURL = chrome.runtime.getURL(LIST_VIEW_PATH);
-
-  const listViewTabs = await chrome.tabs.query({ url: listViewURL });
-  const listViewTab = listViewTabs[0];
+  const listViewTab = await findTabByURL(listViewURL);
 
   if (!listViewTab) {
     await chrome.tabs.create({ url: LIST_VIEW_PATH });
