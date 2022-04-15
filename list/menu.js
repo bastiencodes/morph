@@ -1,3 +1,5 @@
+import { displayImportExport } from "../helpers/tabs.js";
+
 export function setUpMenu() {
   const menuBringTabs = document.getElementById("menu_bring_tabs");
   const menuShareWebPage = document.getElementById("menu_share_web_page");
@@ -13,8 +15,9 @@ export function setUpMenu() {
     console.log("Share all as web page");
   });
 
-  menuExportImport.addEventListener("click", () => {
+  menuExportImport.addEventListener("click", async () => {
     console.log("Export / Import URLs");
+    await displayImportExport();
   });
 
   menuOptions.addEventListener("click", async () => {
