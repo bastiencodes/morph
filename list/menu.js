@@ -22,7 +22,8 @@ export function setUpMenu() {
     await chrome.runtime.openOptionsPage();
   });
 
-  menuAbout.addEventListener("click", () => {
-    console.log("About / Feedback");
+  menuAbout.addEventListener("click", async () => {
+    const ABOUT_URL = "https://morph.github.io";
+    await chrome.tabs.create({ url: ABOUT_URL });
   });
 }
