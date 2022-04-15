@@ -1,9 +1,12 @@
 import { getTabGroups } from "../helpers/storage.js";
 import { createTabGroup } from "./dom.js";
+import { setUpMenu } from "./menu.js";
 
 // Content scripts are files that run in the context of web pages
 (async () => {
   console.log("Hi from list view!");
+
+  setUpMenu();
 
   const content = document.getElementById("content");
 
