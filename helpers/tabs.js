@@ -201,21 +201,36 @@ function isExtensionURL(tab) {
 const isExtensionListPage = (tab) =>
   tab.url === chrome.runtime.getURL(LIST_VIEW_PATH);
 
-// sends all windows except the one with Morph open
-// for that one it sends all the tabs except Morph list
-export async function sendAllWindows() {
+export async function sendAllWindows(currentTab) {
+  // if sendAllWindows called from menus (toolbar or rightclick), get window id
+  const currentWindowId = currentTab
+    ? currentTab.windowId
+    : chrome.windows.WINDOW_ID_NONE;
+
+  const morphURL = chrome.runtime.getURL(LIST_VIEW_PATH);
+  const morphTab = await findTabByURL(morphURL);
+
   const windows = await chrome.windows.getAll({ populate: true });
   for (const window of windows) {
     const [extensionTabs, tabsToSend] = partition(window.tabs, isExtensionURL);
     // send all tabs to Morph except extension tabs
+
+    // TODO: fix sendTabs to take options and not displayList to avoid multiple calls
     await sendTabs(tabsToSend);
 
     // close all extension tabs except list page
     const [_, tabsToClose] = partition(extensionTabs, isExtensionListPage);
     await closeTabs(tabsToClose);
 
-    // TODO: should only keep - Morph home page once
+    // TODO: should only keep Morph home page once
+    // if done right, Morph home page should only ever be opened at one time
+
+    // in window where call was initiated, open Morph if it does not exist
+    if (currentWindowId === window.id && !morphTab) {
+      await chrome.tabs.create({ url: morphURL });
+    }
   }
+  // TODO: call displayList here instead?
 }
 
 // helpers to determine tab position
