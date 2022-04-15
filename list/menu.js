@@ -17,8 +17,9 @@ export function setUpMenu() {
     console.log("Export / Import URLs");
   });
 
-  menuOptions.addEventListener("click", () => {
-    console.log("Options");
+  menuOptions.addEventListener("click", async () => {
+    // opens options page if it does not exist, or brings it to foreground
+    await chrome.runtime.openOptionsPage();
   });
 
   menuAbout.addEventListener("click", () => {
