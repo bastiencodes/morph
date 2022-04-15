@@ -21,6 +21,7 @@ import {
   TITLE_EXCLUDE,
   TITLE_HELP,
 } from "./constants.js";
+
 import {
   displayList,
   isOnlyTabInWindow,
@@ -33,6 +34,7 @@ import {
   sendOnly,
   sendRight,
 } from "./tabs.js";
+
 import { getAllWindows, isOnlyWindow } from "./windows.js";
 
 function createMenuItem(id, title, contexts) {
