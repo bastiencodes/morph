@@ -37,6 +37,13 @@ export async function displayList() {
   await displayTab(url);
 }
 
+export async function displayImportExport() {
+  // TODO: move to constants folder (once created)
+  const IMPORT_EXPORT_PATH = "import-export/import-export.html";
+  const url = chrome.runtime.getURL(IMPORT_EXPORT_PATH);
+  await displayTab(url);
+}
+
 async function storeTabs(tabs) {
   const tabGroup = createTabGroup(tabs);
   console.log("Tab group", tabGroup);
