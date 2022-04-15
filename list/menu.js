@@ -1,4 +1,4 @@
-import { displayImportExport } from "../helpers/tabs.js";
+import { displayImportExport, sendAllWindows } from "../helpers/tabs.js";
 
 export function setUpMenu() {
   const menuBringTabs = document.getElementById("menu_bring_tabs");
@@ -7,8 +7,9 @@ export function setUpMenu() {
   const menuOptions = document.getElementById("menu_options");
   const menuAbout = document.getElementById("menu_about_feedback");
 
-  menuBringTabs.addEventListener("click", () => {
+  menuBringTabs.addEventListener("click", async () => {
     console.log("Bring all tabs into Morph");
+    await sendAllWindows();
   });
 
   menuShareWebPage.addEventListener("click", () => {
