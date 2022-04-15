@@ -64,7 +64,7 @@ async function openTabsInCurrentWindow(tabs) {
   // if no windowId is provided, defaults to current window
   // see https://developer.chrome.com/docs/extensions/reference/tabs/#method-create
   for (const tab of tabs) {
-    await chrome.tabs.create({ url: tab.url, windowId: currentWindow.id });
+    await chrome.tabs.create({ url: tab.url });
   }
 }
 
@@ -87,7 +87,7 @@ export async function openTabs(tabs) {
     }
 
     case OPTION_NEW_WINDOW: {
-      await openTabsInNewWindow();
+      await openTabsInNewWindow(tabs);
       break;
     }
 
