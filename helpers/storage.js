@@ -1,6 +1,6 @@
 import { OPTION_NEW_WINDOW_UNLESS } from "./constants.js";
 
-const generateId = () => "_" + Math.random().toString(36).substr(2, 9);
+const generateId = () => "_" + Math.random().toString(36).substring(2, 9);
 
 export function createTabGroup(tabs) {
   return {
