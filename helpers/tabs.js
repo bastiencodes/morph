@@ -179,10 +179,32 @@ export async function sendRight(currentTab) {
   return sendTabs(tabs);
 }
 
+// TODO: move in array helper?
+// see https://stackoverflow.com/a/47225591/4658957
+function partition(tabs, isValid) {
+  const initial = [[], []];
+  const cb = (prev, tab) => {
+    const [pass, fail] = prev;
+    return isValid(tab) ? [[...pass, tab], fail] : [pass, [...fail, tab]];
+  };
+  const results = tabs.reduce(cb, initial);
+  return results;
+}
+
+function isExtensionURL(tab) {
+  const searchString = `chrome-extension://${chrome.runtime.id}`;
+  const { url } = tab;
+  return url.startsWith(searchString);
+}
+
+// send all windows sends all windows except the one with Morph open
+// for that one it sends all the tabs except Morph
 export async function sendAllWindows() {
   const windows = await chrome.windows.getAll({ populate: true });
   for (const window of windows) {
-    await sendTabs(window.tabs);
+    const [extensionTabs, otherTabs] = partition(window.tabs, isExtensionURL);
+    // send all tabs to Morph except extension tabs
+    await sendTabs(otherTabs);
   }
 }
 
