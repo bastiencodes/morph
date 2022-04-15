@@ -197,14 +197,24 @@ function isExtensionURL(tab) {
   return url.startsWith(searchString);
 }
 
-// send all windows sends all windows except the one with Morph open
-// for that one it sends all the tabs except Morph
+// TODO: rename?
+const isExtensionListPage = (tab) =>
+  tab.url === chrome.runtime.getURL(LIST_VIEW_PATH);
+
+// sends all windows except the one with Morph open
+// for that one it sends all the tabs except Morph list
 export async function sendAllWindows() {
   const windows = await chrome.windows.getAll({ populate: true });
   for (const window of windows) {
-    const [extensionTabs, otherTabs] = partition(window.tabs, isExtensionURL);
+    const [extensionTabs, tabsToSend] = partition(window.tabs, isExtensionURL);
     // send all tabs to Morph except extension tabs
-    await sendTabs(otherTabs);
+    await sendTabs(tabsToSend);
+
+    // close all extension tabs except list page
+    const [_, tabsToClose] = partition(extensionTabs, isExtensionListPage);
+    await closeTabs(tabsToClose);
+
+    // TODO: should only keep - Morph home page once
   }
 }
 
