@@ -181,13 +181,13 @@ export async function sendRight(currentTab) {
 
 // TODO: move in array helper?
 // see https://stackoverflow.com/a/47225591/4658957
-function partition(tabs, isValid) {
+function partition(array, isValid) {
   const initial = [[], []];
-  const cb = (prev, tab) => {
+  const cb = (prev, el) => {
     const [pass, fail] = prev;
-    return isValid(tab) ? [[...pass, tab], fail] : [pass, [...fail, tab]];
+    return isValid(el) ? [[...pass, el], fail] : [pass, [...fail, el]];
   };
-  const results = tabs.reduce(cb, initial);
+  const results = array.reduce(cb, initial);
   return results;
 }
 
