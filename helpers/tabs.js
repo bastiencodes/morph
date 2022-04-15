@@ -114,10 +114,6 @@ async function sendTabs(tabs, shouldCheckOptions = true) {
   // 2. Store tabs
   await storeTabs(updatedTabs);
 
-  // TODO: remove below
-  const urls = updatedTabs.map((tab) => tab.url);
-  await chrome.windows.create({ url: urls });
-
   // 3. Close tabs
   await closeTabs(updatedTabs);
 
