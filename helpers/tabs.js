@@ -119,6 +119,7 @@ async function sendTabs(tabs, shouldCheckOptions = true) {
 
   // 4. Display Morph
   // TODO: issue sometimes when list is opened before tabs have fully loaded
+  // TODO: issue with sendAllWindows - this gets called once for every window (should only be called once!)
   await displayList();
 }
 
