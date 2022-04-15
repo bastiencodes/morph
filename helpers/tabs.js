@@ -21,15 +21,20 @@ async function findTabByURL(url) {
   return tab;
 }
 
-export async function displayList() {
-  const listViewURL = chrome.runtime.getURL(LIST_VIEW_PATH);
-  const listViewTab = await findTabByURL(listViewURL);
-
-  if (!listViewTab) {
-    await chrome.tabs.create({ url: LIST_VIEW_PATH });
+// brings tab to foreground
+// creates tab if it does not exist
+async function displayTab(url) {
+  const tab = await findTabByURL(url);
+  if (!tab) {
+    await chrome.tabs.create({ url });
     return;
   }
-  await bringTabToForeground(listViewTab);
+  await bringTabToForeground(tab);
+}
+
+export async function displayList() {
+  const url = chrome.runtime.getURL(LIST_VIEW_PATH);
+  await displayTab(url);
 }
 
 async function storeTabs(tabs) {
