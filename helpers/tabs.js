@@ -103,6 +103,7 @@ async function closeTabs(tabs) {
   await chrome.tabs.remove(tabIds);
 }
 
+// TODO: fix sendTabs to take options and not displayList to avoid multiple calls
 async function sendTabs(tabs, shouldCheckOptions = true) {
   // 1. Check options (pinned tabs, duplicates)
   let updatedTabs = tabs;
@@ -120,7 +121,7 @@ async function sendTabs(tabs, shouldCheckOptions = true) {
   // 4. Display Morph
   // TODO: issue sometimes when list is opened before tabs have fully loaded
   // TODO: issue with sendAllWindows - this gets called once for every window (should only be called once!)
-  await displayList();
+  // await displayList();
 }
 
 async function getAllTabsInWindow(currentTab) {
@@ -202,33 +203,36 @@ const isExtensionListPage = (tab) =>
   tab.url === chrome.runtime.getURL(LIST_VIEW_PATH);
 
 export async function sendAllWindows(currentTab) {
-  // if sendAllWindows called from menus (toolbar or rightclick), get window id
   const currentWindowId = currentTab
     ? currentTab.windowId
     : chrome.windows.WINDOW_ID_NONE;
 
+  // replace below by displayList and pass in window id?
   const morphURL = chrome.runtime.getURL(LIST_VIEW_PATH);
   const morphTab = await findTabByURL(morphURL);
+  // open Morph if it does not exist in window where call was initiated
+  if (!morphTab && currentWindowId !== chrome.windows.WINDOW_ID_NONE) {
+    await chrome.tabs.create({ url: morphURL, windowId: currentWindowId });
+  }
+
+  // "the tab's URL may not be set at the time the event is fired"
+  // see https://developer.chrome.com/docs/extensions/reference/tabs/#event-onCreated
+  const promiseTimeOut = (millis) =>
+    new Promise((resolve) => {
+      setTimeout(() => resolve(), millis);
+    });
+  // TODO: remove this hack and use onUpdated listener instead to know when URL is set
+  await promiseTimeOut(50);
 
   const windows = await chrome.windows.getAll({ populate: true });
   for (const window of windows) {
-    const [extensionTabs, tabsToSend] = partition(window.tabs, isExtensionURL);
     // send all tabs to Morph except extension tabs
-
-    // TODO: fix sendTabs to take options and not displayList to avoid multiple calls
+    const [extensionTabs, tabsToSend] = partition(window.tabs, isExtensionURL);
     await sendTabs(tabsToSend);
 
     // close all extension tabs except list page
     const [_, tabsToClose] = partition(extensionTabs, isExtensionListPage);
     await closeTabs(tabsToClose);
-
-    // TODO: should only keep Morph home page once
-    // if done right, Morph home page should only ever be opened at one time
-
-    // in window where call was initiated, open Morph if it does not exist
-    if (currentWindowId === window.id && !morphTab) {
-      await chrome.tabs.create({ url: morphURL });
-    }
   }
   // TODO: call displayList here instead?
 }
