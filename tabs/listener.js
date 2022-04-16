@@ -1,4 +1,4 @@
-import { updateMenuItems } from "./menu.js";
+import { updateMenuItems } from "../helpers/menu.js";
 
 export function createTabListener() {
   return async function callback({ tabId, windowId }) {
