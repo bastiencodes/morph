@@ -48,7 +48,7 @@ export async function removeTabGroup(id) {
   await chrome.storage.local.remove(id);
 }
 
-export async function configureOptions() {
+export async function initOptions() {
   await chrome.storage.local.set({ options: defaultOptions });
 }
 

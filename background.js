@@ -4,7 +4,7 @@ import {
   createMenuListener,
   updateMenuItems,
 } from "./helpers/menu.js";
-import { configureOptions, getOptions } from "./helpers/storage.js";
+import { initOptions, getOptions } from "./helpers/storage.js";
 import {
   createTabListener,
   displayList,
@@ -18,7 +18,7 @@ chrome.runtime.onInstalled.addListener(async (details) => {
   console.log("Details", details);
 
   if (details.reason === "install") {
-    await configureOptions();
+    await initOptions();
   }
 
   createMenus();
