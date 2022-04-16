@@ -7,6 +7,7 @@ import {
 import { updateMenuItems } from "./menu.js";
 import { checkOptions } from "./options.js";
 import { createTabGroup, getOptions, saveTabGroup } from "./storage.js";
+import { partition } from "./array.js";
 
 async function bringTabToForeground(tab) {
   const { windowId, index } = tab;
@@ -175,18 +176,6 @@ export async function sendRight(currentTab) {
   const results = await getAllTabsInWindow(currentTab);
   const tabs = results.filter((tab) => tab.index > currentTab.index);
   return sendTabs(tabs);
-}
-
-// TODO: move in array helper?
-// see https://stackoverflow.com/a/47225591/4658957
-function partition(array, isValid) {
-  const initial = [[], []];
-  const cb = (prev, el) => {
-    const [pass, fail] = prev;
-    return isValid(el) ? [[...pass, el], fail] : [pass, [...fail, el]];
-  };
-  const results = array.reduce(cb, initial);
-  return results;
 }
 
 function isExtensionURL(tab) {
