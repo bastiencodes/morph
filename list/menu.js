@@ -1,3 +1,4 @@
+import { ABOUT_URL } from "../constants/paths.js";
 import { displayImportExport, sendAllWindows } from "../helpers/tabs.js";
 
 export function setUpMenu() {
@@ -27,7 +28,6 @@ export function setUpMenu() {
   });
 
   menuAbout.addEventListener("click", async () => {
-    const ABOUT_URL = "https://morph.github.io";
     await chrome.tabs.create({ url: ABOUT_URL });
   });
 }
