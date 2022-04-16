@@ -1,5 +1,5 @@
 import { ABOUT_URL } from "../constants/paths.js";
-import { openImportExportPage } from "../tabs/open.js";
+import { openTransferPage } from "../tabs/open.js";
 import { sendAllWindows } from "../tabs/send.js";
 
 export function setUpMenu() {
@@ -20,7 +20,7 @@ export function setUpMenu() {
 
   menuExportImport.addEventListener("click", async () => {
     console.log("Export / Import URLs");
-    await openImportExportPage();
+    await openTransferPage();
   });
 
   menuOptions.addEventListener("click", async () => {

@@ -3,7 +3,7 @@ import {
   OPTION_NEW_WINDOW,
   OPTION_NEW_WINDOW_UNLESS,
 } from "../constants/options.js";
-import { IMPORT_EXPORT_PATH, LIST_VIEW_PATH } from "../constants/paths.js";
+import { TRANSFER_PATH, LIST_VIEW_PATH } from "../constants/paths.js";
 import { getOptions } from "../helpers/storage.js";
 import { findTabByURL } from "./search.js";
 
@@ -29,8 +29,8 @@ export async function openListPage() {
   await openTab(url);
 }
 
-export async function openImportExportPage() {
-  const url = chrome.runtime.getURL(IMPORT_EXPORT_PATH);
+export async function openTransferPage() {
+  const url = chrome.runtime.getURL(TRANSFER_PATH);
   await openTab(url);
 }
 
