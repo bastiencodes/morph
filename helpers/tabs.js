@@ -5,6 +5,7 @@ import { createTabGroup, saveTabGroup } from "./storage.js";
 import { partition } from "./array.js";
 import { displayList } from "../tabs/display.js";
 import { closeTabs } from "../tabs/close.js";
+import { getAllTabsInWindow } from "../tabs/get.js";
 
 async function storeTabs(tabs) {
   const tabGroup = createTabGroup(tabs);
@@ -31,33 +32,6 @@ async function sendTabs(tabs, shouldCheckOptions = true) {
   // TODO: issue sometimes when list is opened before tabs have fully loaded
   // TODO: issue with sendAllWindows - this gets called once for every window (should only be called once!)
   // await displayList();
-}
-
-async function getAllTabsInWindow(currentTab) {
-  const { windowId } = currentTab;
-  const tabs = await chrome.tabs.query({ windowId });
-  return tabs;
-}
-
-export async function getActiveTabInCurrentWindow() {
-  const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
-  if (tabs.length !== 1)
-    throw new Error("Should only have 1 active tab in current window.");
-  const activeTab = tabs[0];
-  return activeTab;
-}
-
-export async function getActiveTabInWindow(windowId) {
-  const tabs = await chrome.tabs.query({
-    active: true,
-    highlighted: true,
-    windowId,
-  });
-  console.log("windowId", windowId, "tabs", tabs);
-  if (tabs.length !== 1)
-    throw new Error("Should only have 1 active and highlighted tab.");
-  const activeTab = tabs[0];
-  return activeTab;
 }
 
 export async function sendAll(currentTab) {

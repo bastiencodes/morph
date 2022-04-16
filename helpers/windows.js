@@ -1,5 +1,5 @@
+import { getActiveTabInWindow } from "../tabs/get.js";
 import { updateMenuItems } from "./menu.js";
-import { getActiveTabInWindow } from "./tabs.js";
 
 function findWindow(windowId, windows) {
   const window = windows.find((window) => window.id === windowId);
