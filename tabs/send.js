@@ -2,7 +2,6 @@ import { LIST_VIEW_PATH } from "../constants/paths.js";
 import { partition } from "../helpers/array.js";
 import { checkOptions } from "../helpers/options.js";
 import { createTabGroup, saveTabGroup } from "../helpers/storage.js";
-import { closeTabs } from "./close.js";
 import { displayList } from "./display.js";
 import { getAllTabsInWindow } from "./get.js";
 import { findTabByURL } from "./search.js";
@@ -11,6 +10,11 @@ async function storeTabs(tabs) {
   const tabGroup = createTabGroup(tabs);
   console.log("Tab group", tabGroup);
   await saveTabGroup(tabGroup);
+}
+
+async function closeTabs(tabs) {
+  const tabIds = tabs.map((tab) => tab.id);
+  await chrome.tabs.remove(tabIds);
 }
 
 // TODO: fix sendTabs to take options and not displayList to avoid multiple calls
