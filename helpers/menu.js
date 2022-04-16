@@ -20,7 +20,7 @@ import {
   TITLE_SEND_ALL_WINDOWS,
   TITLE_EXCLUDE,
   TITLE_HELP,
-} from "./constants.js";
+} from "../constants/menu.js";
 
 import {
   displayList,
