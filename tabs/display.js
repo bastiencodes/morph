@@ -1,5 +1,5 @@
-import { IMPORT_EXPORT_PATH, LIST_VIEW_PATH } from "../constants/paths";
-import { findTabByURL } from "./search";
+import { IMPORT_EXPORT_PATH, LIST_VIEW_PATH } from "../constants/paths.js";
+import { findTabByURL } from "./search.js";
 
 async function bringTabToForeground(tab) {
   const { windowId, index } = tab;

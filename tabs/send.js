@@ -1,10 +1,10 @@
-import { LIST_VIEW_PATH } from "../constants/paths";
-import { partition } from "../helpers/array";
-import { checkOptions } from "../helpers/options";
-import { createTabGroup, saveTabGroup } from "../helpers/storage";
-import { closeTabs } from "./close";
-import { displayList } from "./display";
-import { getAllTabsInWindow } from "./get";
+import { LIST_VIEW_PATH } from "../constants/paths.js";
+import { partition } from "../helpers/array.js";
+import { checkOptions } from "../helpers/options.js";
+import { createTabGroup, saveTabGroup } from "../helpers/storage.js";
+import { closeTabs } from "./close.js";
+import { displayList } from "./display.js";
+import { getAllTabsInWindow } from "./get.js";
 
 async function storeTabs(tabs) {
   const tabGroup = createTabGroup(tabs);

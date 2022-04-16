@@ -3,8 +3,9 @@ import {
   OPTION_NEW_WINDOW,
   OPTION_NEW_WINDOW_UNLESS,
 } from "../constants/options.js";
-import { getOptions } from "../helpers/storage";
+import { getOptions } from "../helpers/storage.js";
 
+// TODO: rename function
 async function checkIfOnlyTabInCurrentWindow() {
   const currentWindow = await chrome.windows.getCurrent();
   const { tabs } = currentWindow;

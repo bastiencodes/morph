@@ -1,4 +1,4 @@
-import { defaultOptions } from "../constants/options";
+import { defaultOptions } from "../constants/options.js";
 
 const generateId = () => "_" + Math.random().toString(36).substring(2, 9);
 
