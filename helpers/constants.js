@@ -1,5 +1,3 @@
-export const LIST_VIEW_PATH = "list/index.html";
-
 export const ID_DISPLAY = "display";
 export const ID_SEND_ALL = "send_all";
 export const ID_SEND_ONLY = "send_only";

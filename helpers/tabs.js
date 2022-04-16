@@ -1,5 +1,5 @@
+import { IMPORT_EXPORT_PATH, LIST_VIEW_PATH } from "../constants/paths.js";
 import {
-  LIST_VIEW_PATH,
   OPTION_CURRENT_WINDOW,
   OPTION_NEW_WINDOW,
   OPTION_NEW_WINDOW_UNLESS,
@@ -38,8 +38,6 @@ export async function displayList() {
 }
 
 export async function displayImportExport() {
-  // TODO: move to constants folder (once created)
-  const IMPORT_EXPORT_PATH = "import-export/import-export.html";
   const url = chrome.runtime.getURL(IMPORT_EXPORT_PATH);
   await displayTab(url);
 }
@@ -54,8 +52,7 @@ async function checkIfOnlyTabInCurrentWindow() {
   const currentWindow = await chrome.windows.getCurrent();
   const { tabs } = currentWindow;
 
-  // TODO: refactor below
-  const url = chrome.runtime.getURL("list/index.html");
+  const url = chrome.runtime.getURL(LIST_VIEW_PATH);
 
   return tabs.length === 1 && tabs[0].url === url;
 }
