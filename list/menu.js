@@ -1,5 +1,5 @@
 import { ABOUT_URL } from "../constants/paths.js";
-import { displayImportExport } from "../helpers/tabs.js";
+import { displayImportExport } from "../tabs/display.js";
 import { sendAllWindows } from "../tabs/send.js";
 
 export function setUpMenu() {
