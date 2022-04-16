@@ -204,15 +204,15 @@ export async function updateMenuItems(tabId, windowId) {
   const tabs = await chrome.tabs.query({ windowId });
 
   // most left
-  toggleMenuItem(isTabMostLeft(tabId, tabs), ID_SEND_LEFT);
+  toggleMenuItem(isTabMostLeft(tabs, tabId), ID_SEND_LEFT);
 
   // most right
-  toggleMenuItem(isTabMostRight(tabId, tabs), ID_SEND_RIGHT);
+  toggleMenuItem(isTabMostRight(tabs, tabId), ID_SEND_RIGHT);
 
   // just one tab in window
-  toggleMenuItem(isOnlyTabInWindow(tabId, tabs), ID_SEND_EXCEPT);
+  toggleMenuItem(isOnlyTabInWindow(tabs, tabId), ID_SEND_EXCEPT);
 
   // just one window
   const windows = await getAllWindows();
-  toggleMenuItem(isOnlyWindow(windowId, windows), ID_SEND_ALL_WINDOWS);
+  toggleMenuItem(isOnlyWindow(windows, windowId), ID_SEND_ALL_WINDOWS);
 }
