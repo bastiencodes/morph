@@ -162,7 +162,7 @@ export function createMenuListener() {
       }
 
       case ID_SEND_ALL_WINDOWS: {
-        sendAllWindows(currentTab);
+        await sendAllWindows(currentTab);
         break;
       }
 
