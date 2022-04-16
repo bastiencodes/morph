@@ -1,4 +1,4 @@
-import { OPTION_NEW_WINDOW_UNLESS } from "./constants.js";
+import { OPTION_NEW_WINDOW_UNLESS } from "../constants/options";
 
 const generateId = () => "_" + Math.random().toString(36).substring(2, 9);
 

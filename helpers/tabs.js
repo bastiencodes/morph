@@ -3,7 +3,7 @@ import {
   OPTION_CURRENT_WINDOW,
   OPTION_NEW_WINDOW,
   OPTION_NEW_WINDOW_UNLESS,
-} from "./constants.js";
+} from "../constants/options.js";
 import { updateMenuItems } from "./menu.js";
 import { checkOptions } from "./options.js";
 import { createTabGroup, getOptions, saveTabGroup } from "./storage.js";
