@@ -67,15 +67,19 @@ export async function sendRight(currentTab) {
   return sendTabs(tabs);
 }
 
+// Note: checking for pendingUrl is very important
+// this avoids Morph tab being closed if currently loading
 function isExtensionURL(tab) {
   const searchString = `chrome-extension://${chrome.runtime.id}`;
-  const { url } = tab;
+  const url = tab.url || tab.pendingUrl;
   return url.startsWith(searchString);
 }
 
 // TODO: rename?
-const isExtensionListPage = (tab) =>
-  tab.url === chrome.runtime.getURL(LIST_VIEW_PATH);
+const isExtensionListPage = (tab) => {
+  const url = tab.url || tab.pendingUrl;
+  return url === chrome.runtime.getURL(LIST_VIEW_PATH);
+};
 
 export async function sendAllWindows(currentTab) {
   const currentWindowId = currentTab
@@ -89,15 +93,6 @@ export async function sendAllWindows(currentTab) {
   if (!morphTab && currentWindowId !== chrome.windows.WINDOW_ID_NONE) {
     await chrome.tabs.create({ url: morphURL, windowId: currentWindowId });
   }
-
-  // "the tab's URL may not be set at the time the event is fired"
-  // see https://developer.chrome.com/docs/extensions/reference/tabs/#event-onCreated
-  const promiseTimeOut = (millis) =>
-    new Promise((resolve) => {
-      setTimeout(() => resolve(), millis);
-    });
-  // TODO: remove this hack and use onUpdated listener instead to know when URL is set
-  await promiseTimeOut(50);
 
   const windows = await chrome.windows.getAll({ populate: true });
   for (const window of windows) {
