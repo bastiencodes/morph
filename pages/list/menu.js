@@ -29,6 +29,9 @@ export function setUpMenu() {
   });
 
   menuAbout.addEventListener("click", async () => {
-    await chrome.tabs.create({ url: ABOUT_URL });
+    await chrome.tabs.create({
+      url: ABOUT_URL,
+      windowId: chrome.windows.WINDOW_ID_CURRENT,
+    });
   });
 }
