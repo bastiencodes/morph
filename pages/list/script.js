@@ -1,4 +1,4 @@
-import { getTabGroups } from "../helpers/storage.js";
+import { getTabGroups } from "../../helpers/storage.js";
 import { createTabGroup } from "./dom.js";
 import { setUpMenu } from "./menu.js";
 

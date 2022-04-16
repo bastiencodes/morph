@@ -1,4 +1,4 @@
-import { getOptions, updateOption } from "../helpers/storage.js";
+import { getOptions, updateOption } from "../../helpers/storage.js";
 
 (async () => {
   const options = await getOptions();

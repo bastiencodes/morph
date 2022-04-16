@@ -1,3 +1,26 @@
+.tabGroup {
+}
+
+.tabHeader {
+}
+
+.tabCount {
+}
+
+.tabActions {
+}
+
+.tabList {
+}
+
+.tab {
+}
+
+.tabFavicon {
+  height: 16px;
+  width: 16px;
+}
+
 #menu {
   position: absolute;
   top: 0;

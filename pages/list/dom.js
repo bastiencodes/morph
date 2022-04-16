@@ -4,8 +4,8 @@ import {
   removeTabGroup,
   toggleLock,
   toggleStar,
-} from "../helpers/storage.js";
-import { restoreTabs } from "../tabs/open.js";
+} from "../../helpers/storage.js";
+import { restoreTabs } from "../../tabs/open.js";
 
 // tab header
 function createTabCount(count) {
