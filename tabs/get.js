@@ -6,10 +6,8 @@ export async function getAllTabsInWindow(currentTab) {
 
 // TODO: merge both by passing current as param
 export async function getActiveTabInCurrentWindow() {
-  const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
-  if (tabs.length !== 1)
-    throw new Error("Should only have 1 active tab in current window.");
-  const activeTab = tabs[0];
+  const currentWindowId = chrome.windows.WINDOW_ID_CURRENT;
+  const activeTab = await getActiveTabInWindow(currentWindowId);
   return activeTab;
 }
 
