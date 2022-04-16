@@ -4,7 +4,6 @@ import { checkOptions } from "../helpers/options.js";
 import { createTabGroup, saveTabGroup } from "../helpers/storage.js";
 import { openListPage } from "./open.js";
 import { getAllTabsInWindow } from "./get.js";
-import { findTabByURL } from "./search.js";
 
 async function storeTabs(tabs) {
   const tabGroup = createTabGroup(tabs);
@@ -81,18 +80,8 @@ const isExtensionListPage = (tab) => {
   return url === chrome.runtime.getURL(LIST_VIEW_PATH);
 };
 
-export async function sendAllWindows(currentTab) {
-  const currentWindowId = currentTab
-    ? currentTab.windowId
-    : chrome.windows.WINDOW_ID_NONE;
-
-  // TODO: replace below by openListPage and pass in window id?
-  const morphURL = chrome.runtime.getURL(LIST_VIEW_PATH);
-  const morphTab = await findTabByURL(morphURL);
-  // open Morph if it does not exist in window where call was initiated
-  if (!morphTab && currentWindowId !== chrome.windows.WINDOW_ID_NONE) {
-    await chrome.tabs.create({ url: morphURL, windowId: currentWindowId });
-  }
+export async function sendAllWindows() {
+  await openListPage();
 
   const windows = await chrome.windows.getAll({ populate: true });
   for (const window of windows) {

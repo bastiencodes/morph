@@ -18,6 +18,7 @@ async function bringTabToForeground(tab) {
 async function openTab(url) {
   const tab = await findTabByURL(url);
   if (!tab) {
+    // defaults to current window
     await chrome.tabs.create({ url });
     return;
   }
