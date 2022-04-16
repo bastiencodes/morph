@@ -1,11 +1,5 @@
 import { IMPORT_EXPORT_PATH, LIST_VIEW_PATH } from "../constants/paths";
-
-async function findTabByURL(url) {
-  // returns empty array if no tabs match
-  const tabs = await chrome.tabs.query({ url });
-  const tab = tabs[0];
-  return tab;
-}
+import { findTabByURL } from "./search";
 
 async function bringTabToForeground(tab) {
   const { windowId, index } = tab;

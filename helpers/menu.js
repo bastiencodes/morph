@@ -31,7 +31,11 @@ import {
   sendRight,
 } from "../tabs/send.js";
 
-import { isOnlyTabInWindow, isTabMostLeft, isTabMostRight } from "./tabs.js";
+import {
+  isOnlyTabInWindow,
+  isTabMostLeft,
+  isTabMostRight,
+} from "../tabs/search.js";
 
 import { getAllWindows, isOnlyWindow } from "./windows.js";
 
