@@ -70,7 +70,7 @@ async function openTabsInNewWindow(tabs) {
   await chrome.windows.create({ url: urls });
 }
 
-export async function openTabs(tabs) {
+export async function restoreTabs(tabs) {
   const { RESTORE_TAB_GROUP_IN } = await getOptions();
 
   switch (RESTORE_TAB_GROUP_IN) {

@@ -5,7 +5,7 @@ import {
   toggleLock,
   toggleStar,
 } from "../helpers/storage.js";
-import { openTabs } from "../helpers/tabs.js";
+import { restoreTabs } from "../helpers/tabs.js";
 
 // tab header
 function createTabCount(count) {
@@ -31,7 +31,7 @@ function createRestoreButton(id, isLocked, tabs) {
   const restoreBtn = document.createElement("button");
   restoreBtn.innerText = "Restore all";
   restoreBtn.addEventListener("click", async () => {
-    await openTabs(tabs);
+    await restoreTabs(tabs);
 
     const { REMOVE_TABS_FROM_LIST_ON_RESTORE } = await getOptions();
     if (REMOVE_TABS_FROM_LIST_ON_RESTORE && !isLocked) {
