@@ -1,4 +1,4 @@
-import { IMPORT_EXPORT_PATH, LIST_VIEW_PATH } from "../constants/paths.js";
+import { LIST_VIEW_PATH } from "../constants/paths.js";
 import {
   OPTION_CURRENT_WINDOW,
   OPTION_NEW_WINDOW,
@@ -8,40 +8,7 @@ import { updateMenuItems } from "./menu.js";
 import { checkOptions } from "./options.js";
 import { createTabGroup, getOptions, saveTabGroup } from "./storage.js";
 import { partition } from "./array.js";
-
-async function bringTabToForeground(tab) {
-  const { windowId, index } = tab;
-  await chrome.windows.update(windowId, { focused: true });
-  await chrome.tabs.highlight({ tabs: index, windowId });
-}
-
-async function findTabByURL(url) {
-  // returns empty array if no tabs match
-  const tabs = await chrome.tabs.query({ url });
-  const tab = tabs[0];
-  return tab;
-}
-
-// brings tab to foreground
-// creates tab if it does not exist
-async function displayTab(url) {
-  const tab = await findTabByURL(url);
-  if (!tab) {
-    await chrome.tabs.create({ url });
-    return;
-  }
-  await bringTabToForeground(tab);
-}
-
-export async function displayList() {
-  const url = chrome.runtime.getURL(LIST_VIEW_PATH);
-  await displayTab(url);
-}
-
-export async function displayImportExport() {
-  const url = chrome.runtime.getURL(IMPORT_EXPORT_PATH);
-  await displayTab(url);
-}
+import { displayList } from "../tabs/display.js";
 
 async function storeTabs(tabs) {
   const tabGroup = createTabGroup(tabs);

@@ -21,9 +21,9 @@ import {
   TITLE_EXCLUDE,
   TITLE_HELP,
 } from "../constants/menu.js";
+import { displayList } from "../tabs/display.js";
 
 import {
-  displayList,
   isOnlyTabInWindow,
   isTabMostLeft,
   isTabMostRight,

@@ -7,11 +7,11 @@ import {
 import { initOptions, getOptions } from "./helpers/storage.js";
 import {
   createTabListener,
-  displayList,
   getActiveTabInCurrentWindow,
   sendAll,
 } from "./helpers/tabs.js";
 import { createWindowListener } from "./helpers/windows.js";
+import { displayList } from "./tabs/display.js";
 
 chrome.runtime.onInstalled.addListener(async (details) => {
   console.log("Extension installed!");
