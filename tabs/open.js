@@ -15,7 +15,7 @@ async function bringTabToForeground(tab) {
 
 // brings tab to foreground
 // creates tab if it does not exist
-async function displayTab(url) {
+async function openTab(url) {
   const tab = await findTabByURL(url);
   if (!tab) {
     await chrome.tabs.create({ url });
@@ -24,14 +24,14 @@ async function displayTab(url) {
   await bringTabToForeground(tab);
 }
 
-export async function displayList() {
+export async function openListPage() {
   const url = chrome.runtime.getURL(LIST_VIEW_PATH);
-  await displayTab(url);
+  await openTab(url);
 }
 
-export async function displayImportExport() {
+export async function openImportExportPage() {
   const url = chrome.runtime.getURL(IMPORT_EXPORT_PATH);
-  await displayTab(url);
+  await openTab(url);
 }
 
 // TODO: rename function

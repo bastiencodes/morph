@@ -2,7 +2,7 @@ import { LIST_VIEW_PATH } from "../constants/paths.js";
 import { partition } from "../helpers/array.js";
 import { checkOptions } from "../helpers/options.js";
 import { createTabGroup, saveTabGroup } from "../helpers/storage.js";
-import { displayList } from "./open.js";
+import { openListPage } from "./open.js";
 import { getAllTabsInWindow } from "./get.js";
 import { findTabByURL } from "./search.js";
 
@@ -17,7 +17,7 @@ async function closeTabs(tabs) {
   await chrome.tabs.remove(tabIds);
 }
 
-// TODO: fix sendTabs to take options and not displayList to avoid multiple calls
+// TODO: fix sendTabs to take options and not openListPage to avoid multiple calls
 async function sendTabs(tabs, shouldCheckOptions = true) {
   // 1. Check options (pinned tabs, duplicates)
   let updatedTabs = tabs;
@@ -35,7 +35,7 @@ async function sendTabs(tabs, shouldCheckOptions = true) {
   // 4. Display Morph
   // TODO: issue sometimes when list is opened before tabs have fully loaded
   // TODO: issue with sendAllWindows - this gets called once for every window (should only be called once!)
-  // await displayList();
+  // await openListPage();
 }
 
 export async function sendAll(currentTab) {
@@ -82,7 +82,7 @@ export async function sendAllWindows(currentTab) {
     ? currentTab.windowId
     : chrome.windows.WINDOW_ID_NONE;
 
-  // TODO: replace below by displayList and pass in window id?
+  // TODO: replace below by openListPage and pass in window id?
   const morphURL = chrome.runtime.getURL(LIST_VIEW_PATH);
   const morphTab = await findTabByURL(morphURL);
   // open Morph if it does not exist in window where call was initiated
@@ -109,5 +109,5 @@ export async function sendAllWindows(currentTab) {
     const [_, tabsToClose] = partition(extensionTabs, isExtensionListPage);
     await closeTabs(tabsToClose);
   }
-  // TODO: call displayList here instead?
+  // TODO: call openListPage here instead?
 }

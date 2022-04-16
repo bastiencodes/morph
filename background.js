@@ -6,7 +6,7 @@ import {
 } from "./helpers/menu.js";
 import { initOptions, getOptions } from "./helpers/storage.js";
 import { createWindowListener } from "./helpers/windows.js";
-import { displayList } from "./tabs/open.js";
+import { openListPage } from "./tabs/open.js";
 import { getActiveTabInCurrentWindow } from "./tabs/get.js";
 import { createTabListener } from "./tabs/listener.js";
 import { sendAll } from "./tabs/send.js";
@@ -30,7 +30,7 @@ chrome.runtime.onInstalled.addListener(async (details) => {
 chrome.runtime.onStartup.addListener(async () => {
   const { DISPLAY_MORPH_ON_STARTUP } = await getOptions();
   if (DISPLAY_MORPH_ON_STARTUP) {
-    await displayList();
+    await openListPage();
   }
 });
 

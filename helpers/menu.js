@@ -21,7 +21,7 @@ import {
   TITLE_EXCLUDE,
   TITLE_HELP,
 } from "../constants/menu.js";
-import { displayList } from "../tabs/open.js";
+import { openListPage } from "../tabs/open.js";
 import {
   sendAll,
   sendAllWindows,
@@ -134,7 +134,7 @@ export function createMenuListener() {
 
     switch (menuItemId) {
       case ID_DISPLAY: {
-        await displayList();
+        await openListPage();
         break;
       }
 
