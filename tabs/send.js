@@ -5,6 +5,7 @@ import { createTabGroup, saveTabGroup } from "../helpers/storage.js";
 import { closeTabs } from "./close.js";
 import { displayList } from "./display.js";
 import { getAllTabsInWindow } from "./get.js";
+import { findTabByURL } from "./search.js";
 
 async function storeTabs(tabs) {
   const tabGroup = createTabGroup(tabs);
@@ -77,7 +78,7 @@ export async function sendAllWindows(currentTab) {
     ? currentTab.windowId
     : chrome.windows.WINDOW_ID_NONE;
 
-  // replace below by displayList and pass in window id?
+  // TODO: replace below by displayList and pass in window id?
   const morphURL = chrome.runtime.getURL(LIST_VIEW_PATH);
   const morphTab = await findTabByURL(morphURL);
   // open Morph if it does not exist in window where call was initiated
