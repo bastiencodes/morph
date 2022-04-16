@@ -5,10 +5,11 @@ import {
   updateMenuItems,
 } from "./helpers/menu.js";
 import { initOptions, getOptions } from "./helpers/storage.js";
-import { createTabListener, sendAll } from "./helpers/tabs.js";
+import { createTabListener } from "./helpers/tabs.js";
 import { createWindowListener } from "./helpers/windows.js";
 import { displayList } from "./tabs/display.js";
 import { getActiveTabInCurrentWindow } from "./tabs/get.js";
+import { sendAll } from "./tabs/send.js";
 
 chrome.runtime.onInstalled.addListener(async (details) => {
   console.log("Extension installed!");

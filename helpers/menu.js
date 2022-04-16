@@ -22,18 +22,16 @@ import {
   TITLE_HELP,
 } from "../constants/menu.js";
 import { displayList } from "../tabs/display.js";
-
 import {
-  isOnlyTabInWindow,
-  isTabMostLeft,
-  isTabMostRight,
   sendAll,
   sendAllWindows,
   sendExcept,
   sendLeft,
   sendOnly,
   sendRight,
-} from "./tabs.js";
+} from "../tabs/send.js";
+
+import { isOnlyTabInWindow, isTabMostLeft, isTabMostRight } from "./tabs.js";
 
 import { getAllWindows, isOnlyWindow } from "./windows.js";
 
