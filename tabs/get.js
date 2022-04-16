@@ -1,5 +1,5 @@
-export async function getAllTabsInWindow(currentTab) {
-  const { windowId } = currentTab;
+export async function getAllTabsInWindow(tab) {
+  const { windowId } = tab;
   const tabs = await chrome.tabs.query({ windowId });
   return tabs;
 }
