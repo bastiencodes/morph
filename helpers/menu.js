@@ -21,7 +21,7 @@ import {
   TITLE_EXCLUDE,
   TITLE_HELP,
 } from "../constants/menu.js";
-import { displayList } from "../tabs/display.js";
+import { displayList } from "../tabs/open.js";
 import {
   sendAll,
   sendAllWindows,

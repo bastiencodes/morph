@@ -2,7 +2,7 @@ import { LIST_VIEW_PATH } from "../constants/paths.js";
 import { partition } from "../helpers/array.js";
 import { checkOptions } from "../helpers/options.js";
 import { createTabGroup, saveTabGroup } from "../helpers/storage.js";
-import { displayList } from "./display.js";
+import { displayList } from "./open.js";
 import { getAllTabsInWindow } from "./get.js";
 import { findTabByURL } from "./search.js";
 
