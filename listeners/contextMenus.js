@@ -1,3 +1,14 @@
+import {
+  ID_DISPLAY,
+  ID_EXCLUDE,
+  ID_HELP,
+  ID_SEND_ALL,
+  ID_SEND_ALL_WINDOWS,
+  ID_SEND_EXCEPT,
+  ID_SEND_LEFT,
+  ID_SEND_ONLY,
+  ID_SEND_RIGHT,
+} from "../constants/menu.js";
 import { openListPage } from "../tabs/open.js";
 import {
   sendAll,
