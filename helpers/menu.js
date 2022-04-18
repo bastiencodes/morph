@@ -21,15 +21,6 @@ import {
   TITLE_EXCLUDE,
   TITLE_HELP,
 } from "../constants/menu.js";
-import { openListPage } from "../tabs/open.js";
-import {
-  sendAll,
-  sendAllWindows,
-  sendExcept,
-  sendLeft,
-  sendOnly,
-  sendRight,
-} from "../tabs/send.js";
 
 import {
   isOnlyTabInWindow,
@@ -120,65 +111,6 @@ export function createToolbarMenu() {
 
   const itemIds = createContextMenu(prefix, contexts);
   setParent(PARENT_ID, itemIds);
-}
-
-function stripPrefix(menuItemId) {
-  // strip prefix to be able to call listener for both context menus
-  const pos = menuItemId.indexOf("/");
-  return menuItemId.substring(pos + 1);
-}
-
-export function createMenuListener() {
-  return async function callback(info, currentTab) {
-    const menuItemId = stripPrefix(info.menuItemId);
-
-    switch (menuItemId) {
-      case ID_DISPLAY: {
-        await openListPage();
-        break;
-      }
-
-      case ID_SEND_ALL: {
-        await sendAll(currentTab);
-        break;
-      }
-
-      case ID_SEND_ONLY: {
-        await sendOnly(currentTab);
-        break;
-      }
-
-      case ID_SEND_EXCEPT: {
-        await sendExcept(currentTab);
-        break;
-      }
-
-      case ID_SEND_LEFT: {
-        await sendLeft(currentTab);
-        break;
-      }
-
-      case ID_SEND_RIGHT: {
-        await sendRight(currentTab);
-        break;
-      }
-
-      case ID_SEND_ALL_WINDOWS: {
-        await sendAllWindows();
-        break;
-      }
-
-      case ID_EXCLUDE: {
-        console.log(TITLE_EXCLUDE);
-        break;
-      }
-
-      case ID_HELP: {
-        console.log(TITLE_HELP);
-        break;
-      }
-    }
-  };
 }
 
 function enableMenuItem(id) {
