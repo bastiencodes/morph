@@ -7,6 +7,12 @@ import { getOptions } from "../helpers/storage.js";
 import { getListPageURL, getTransferPageURL } from "../helpers/urls.js";
 import { findTabByURL } from "./search.js";
 
+export const createTab = (url) =>
+  chrome.tabs.create({
+    url,
+    windowId: chrome.windows.WINDOW_ID_CURRENT,
+  });
+
 async function bringTabToForeground(tab) {
   const { windowId, index } = tab;
   await chrome.windows.update(windowId, { focused: true });
@@ -18,10 +24,7 @@ async function bringTabToForeground(tab) {
 async function openTab(url) {
   const tab = await findTabByURL(url);
   if (!tab) {
-    await chrome.tabs.create({
-      url,
-      windowId: chrome.windows.WINDOW_ID_CURRENT,
-    });
+    await createTab(url);
     return;
   }
   await bringTabToForeground(tab);

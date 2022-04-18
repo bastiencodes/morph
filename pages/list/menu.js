@@ -1,5 +1,9 @@
 import { ABOUT_URL } from "../../constants/paths.js";
-import { openOptionsPage, openTransferPage } from "../../tabs/open.js";
+import {
+  createTab,
+  openOptionsPage,
+  openTransferPage,
+} from "../../tabs/open.js";
 import { sendAllWindows } from "../../tabs/send.js";
 
 export function setUpMenu() {
@@ -19,10 +23,5 @@ export function setUpMenu() {
 
   menuOptions.addEventListener("click", () => openOptionsPage());
 
-  menuAbout.addEventListener("click", () =>
-    chrome.tabs.create({
-      url: ABOUT_URL,
-      windowId: chrome.windows.WINDOW_ID_CURRENT,
-    })
-  );
+  menuAbout.addEventListener("click", () => createTab(ABOUT_URL));
 }
