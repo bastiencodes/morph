@@ -56,7 +56,7 @@ export async function sendAll(currentTab) {
 // ensure no checks if right clicking 'Send only this tab'
 export async function sendOnly(currentTab) {
   const tabs = [currentTab];
-  return sendTabs(tabs, { check: false });
+  return sendTabs(tabs, { check: false, open: false });
 }
 
 export async function sendExcept(currentTab) {
