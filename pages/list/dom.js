@@ -41,11 +41,15 @@ function createRestoreButton(id, isLocked, tabs) {
   return restoreBtn;
 }
 
-function createDeleteButton(id) {
+function createDeleteButton(id, numTabs) {
   const deleteBtn = document.createElement("button");
   deleteBtn.innerText = "Delete all";
   deleteBtn.addEventListener("click", async () => {
-    if (confirm("Are you sure you want to delete those tabs?")) {
+    const message = `Are you sure you want to delete ${
+      numTabs > 1 ? "these" : "this"
+    } tab${numTabs > 1 ? "s" : ""}?`;
+
+    if (confirm(message)) {
       await deleteTabGroup(id, deleteBtn);
     }
   });
@@ -90,7 +94,7 @@ function createTabActions(tabGroup) {
   div.className = "tabActions";
 
   const restoreBtn = createRestoreButton(id, isLocked, tabs);
-  const deleteBtn = createDeleteButton(id);
+  const deleteBtn = createDeleteButton(id, tabs.length);
   const lockBtn = createLockButton(tabGroup);
   const starBtn = createStarButton(tabGroup);
 
