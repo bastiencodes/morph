@@ -37,6 +37,11 @@ export async function openTransferPage() {
   await openTab(url);
 }
 
+export async function openOptionsPage() {
+  // opens options page if it does not exist, or brings it to foreground
+  await chrome.runtime.openOptionsPage();
+}
+
 // TODO: rename function
 async function checkIfOnlyTabInCurrentWindow() {
   const currentWindow = await chrome.windows.getCurrent();

@@ -1,5 +1,5 @@
 import { ABOUT_URL } from "../../constants/paths.js";
-import { openTransferPage } from "../../tabs/open.js";
+import { openOptionsPage, openTransferPage } from "../../tabs/open.js";
 import { sendAllWindows } from "../../tabs/send.js";
 
 export function setUpMenu() {
@@ -24,8 +24,7 @@ export function setUpMenu() {
   });
 
   menuOptions.addEventListener("click", async () => {
-    // opens options page if it does not exist, or brings it to foreground
-    await chrome.runtime.openOptionsPage();
+    await openOptionsPage();
   });
 
   menuAbout.addEventListener("click", async () => {
