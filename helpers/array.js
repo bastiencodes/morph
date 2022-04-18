@@ -8,3 +8,11 @@ export function partition(array, isValid) {
   const results = array.reduce(cb, initial);
   return results;
 }
+
+export function uniqueBy(array, key, initialSeen = []) {
+  const seen = new Set(initialSeen);
+  return array.filter((item) => {
+    const val = item[key];
+    return seen.has(val) ? false : seen.add(val);
+  });
+}
