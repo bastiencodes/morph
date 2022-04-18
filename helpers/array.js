@@ -1,12 +1,9 @@
-// see https://stackoverflow.com/a/47225591/4658957
-export function partition(array, isValid) {
-  const initial = [[], []];
-  const cb = (prev, el) => {
-    const [pass, fail] = prev;
-    return isValid(el) ? [[...pass, el], fail] : [pass, [...fail, el]];
-  };
-  const results = array.reduce(cb, initial);
-  return results;
+// https://stackoverflow.com/a/50636286/4658957?
+export function partition(array, filter) {
+  const pass = [];
+  const fail = [];
+  array.forEach((e, idx, arr) => (filter(e, idx, arr) ? pass : fail).push(e));
+  return [pass, fail];
 }
 
 export function uniqueBy(array, key, initialSeen = []) {
