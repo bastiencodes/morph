@@ -25,6 +25,15 @@ export async function getTabGroups() {
   return tabGroups;
 }
 
+// return URLs of all stored tabs
+export async function getTabURLs() {
+  const tabGroups = await getTabGroups();
+  return Object.values(tabGroups)
+    .map((tabGroup) => tabGroup.tabs)
+    .flat(1)
+    .map((tab) => tab.url);
+}
+
 export async function getTabGroup(id) {
   const tabGroup = await chrome.storage.local.get(id);
   return tabGroup[id];
