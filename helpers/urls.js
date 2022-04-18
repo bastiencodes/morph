@@ -1,4 +1,6 @@
-import { LIST_VIEW_PATH, TRANSFER_PATH } from "../constants/paths.js";
+import { BASE_URL, LIST_VIEW_PATH, TRANSFER_PATH } from "../constants/paths.js";
+
+export const isExtensionURL = (url) => url.startsWith(BASE_URL);
 
 export const getListPageURL = () => chrome.runtime.getURL(LIST_VIEW_PATH);
 
