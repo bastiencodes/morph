@@ -9,28 +9,20 @@ export function setUpMenu() {
   const menuOptions = document.getElementById("menu_options");
   const menuAbout = document.getElementById("menu_about_feedback");
 
-  menuBringTabs.addEventListener("click", async () => {
-    console.log("Bring all tabs into Morph");
-    await sendAllWindows();
-  });
+  menuBringTabs.addEventListener("click", () => sendAllWindows());
 
   menuShareWebPage.addEventListener("click", () => {
     console.log("Share all as web page");
   });
 
-  menuExportImport.addEventListener("click", async () => {
-    console.log("Export / Import URLs");
-    await openTransferPage();
-  });
+  menuExportImport.addEventListener("click", () => openTransferPage());
 
-  menuOptions.addEventListener("click", async () => {
-    await openOptionsPage();
-  });
+  menuOptions.addEventListener("click", () => openOptionsPage());
 
-  menuAbout.addEventListener("click", async () => {
-    await chrome.tabs.create({
+  menuAbout.addEventListener("click", () =>
+    chrome.tabs.create({
       url: ABOUT_URL,
       windowId: chrome.windows.WINDOW_ID_CURRENT,
-    });
-  });
+    })
+  );
 }
