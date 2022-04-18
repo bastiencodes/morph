@@ -25,3 +25,8 @@ export function isOnlyTabInWindow(tabs, tabId) {
   const tab = findTabById(tabs, tabId);
   return tab && tabs.length === 1;
 }
+
+export async function doDuplicateTabsExist(url) {
+  const tabs = await chrome.tabs.query({ url });
+  return tabs.length > 1;
+}
