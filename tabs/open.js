@@ -63,7 +63,7 @@ export async function restoreTabs(tabs) {
 
       if (isOnlyTab) {
         await openTabsInCurrentWindow(tabs);
-        // TODO: missing return?
+        return;
       }
       await openTabsInNewWindow(tabs);
       break;
