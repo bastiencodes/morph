@@ -28,9 +28,9 @@ export async function checkOptions(tabs) {
   let updatedTabs = tabs;
 
   const options = await getOptions();
-  const { SEND_PINNED_TABS, ALLOW_DUPLICATES } = options;
+  const { ALLOW_PINNED_TABS, ALLOW_DUPLICATES } = options;
 
-  if (!SEND_PINNED_TABS) {
+  if (!ALLOW_PINNED_TABS) {
     updatedTabs = removePinnedTabs(updatedTabs);
   }
 

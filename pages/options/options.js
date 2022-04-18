@@ -20,14 +20,14 @@ import { getOptions, updateOption } from "../../helpers/storage.js";
 
   const {
     RESTORE_TAB_GROUP_IN,
-    SEND_PINNED_TABS,
+    ALLOW_PINNED_TABS,
     DISPLAY_MORPH_ON_STARTUP,
     REMOVE_TABS_FROM_LIST_ON_RESTORE,
     ALLOW_DUPLICATES,
   } = options;
 
   restoreTabGroupSelect.value = RESTORE_TAB_GROUP_IN;
-  pinnedTabsSelect.value = String(SEND_PINNED_TABS);
+  pinnedTabsSelect.value = String(ALLOW_PINNED_TABS);
   startupDisplaySelect.value = String(DISPLAY_MORPH_ON_STARTUP);
   removeTabsFromListSelect.value = String(REMOVE_TABS_FROM_LIST_ON_RESTORE);
   allowDuplicatesSelect.value = String(ALLOW_DUPLICATES);
@@ -41,7 +41,7 @@ import { getOptions, updateOption } from "../../helpers/storage.js";
   }
 
   pinnedTabsSelect.addEventListener("change", (e) =>
-    updateOption("SEND_PINNED_TABS", convertToBoolean(e.target.value))
+    updateOption("ALLOW_PINNED_TABS", convertToBoolean(e.target.value))
   );
 
   startupDisplaySelect.addEventListener("change", (e) =>
