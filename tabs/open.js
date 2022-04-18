@@ -54,10 +54,7 @@ async function checkIfOnlyTabInCurrentWindow() {
 
 async function openTabsInCurrentWindow(tabs) {
   for (const tab of tabs) {
-    await chrome.tabs.create({
-      url: tab.url,
-      windowId: chrome.windows.WINDOW_ID_CURRENT,
-    });
+    await createTab(tab.url);
   }
 }
 
