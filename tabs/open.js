@@ -3,8 +3,8 @@ import {
   OPTION_NEW_WINDOW,
   OPTION_NEW_WINDOW_UNLESS,
 } from "../constants/options.js";
-import { TRANSFER_PATH, LIST_VIEW_PATH } from "../constants/paths.js";
 import { getOptions } from "../helpers/storage.js";
+import { getListPageURL, getTransferPageURL } from "../helpers/urls.js";
 import { findTabByURL } from "./search.js";
 
 async function bringTabToForeground(tab) {
@@ -28,12 +28,12 @@ async function openTab(url) {
 }
 
 export async function openListPage() {
-  const url = chrome.runtime.getURL(LIST_VIEW_PATH);
+  const url = getListPageURL();
   await openTab(url);
 }
 
 export async function openTransferPage() {
-  const url = chrome.runtime.getURL(TRANSFER_PATH);
+  const url = getTransferPageURL();
   await openTab(url);
 }
 
@@ -42,7 +42,7 @@ async function checkIfOnlyTabInCurrentWindow() {
   const currentWindow = await chrome.windows.getCurrent();
   const { tabs } = currentWindow;
 
-  const url = chrome.runtime.getURL(LIST_VIEW_PATH);
+  const url = getListPageURL();
 
   return tabs.length === 1 && tabs[0].url === url;
 }
