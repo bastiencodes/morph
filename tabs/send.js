@@ -1,9 +1,9 @@
-import { LIST_VIEW_PATH } from "../constants/paths.js";
 import { partition } from "../helpers/array.js";
 import { checkOptions } from "../helpers/options.js";
 import { createTabGroup, saveTabGroup } from "../helpers/storage.js";
 import { openListPage } from "./open.js";
 import { getAllTabsInWindow } from "./get.js";
+import { isListPageURL } from "../helpers/urls.js";
 
 async function storeTabs(tabs) {
   const tabGroup = createTabGroup(tabs);
@@ -66,31 +66,25 @@ export async function sendRight(currentTab) {
   return sendTabs(tabs);
 }
 
-// Note: checking for pendingUrl is very important
-// this avoids Morph tab being closed if currently loading
-function isExtensionURL(tab) {
-  const searchString = `chrome-extension://${chrome.runtime.id}`;
-  const url = tab.url || tab.pendingUrl;
-  return url.startsWith(searchString);
-}
-
-// TODO: rename?
-const isExtensionListPage = (tab) => {
-  const url = tab.url || tab.pendingUrl;
-  return url === chrome.runtime.getURL(LIST_VIEW_PATH);
-};
-
 export async function sendAllWindows() {
   await openListPage();
 
   const windows = await chrome.windows.getAll({ populate: true });
   for (const window of windows) {
     // send all tabs to Morph except extension tabs
-    const [extensionTabs, tabsToSend] = partition(window.tabs, isExtensionURL);
+    const [extensionTabs, tabsToSend] = partition(window.tabs, (tab) => {
+      // Note: checking for pendingUrl is very important
+      // this avoids Morph tab being closed if currently loading
+      const url = tab.url || tab.pendingUrl;
+      return isExtensionURL(url);
+    });
     await sendTabs(tabsToSend);
 
     // close all extension tabs except list page
-    const [_, tabsToClose] = partition(extensionTabs, isExtensionListPage);
+    const [_, tabsToClose] = partition(extensionTabs, (tab) => {
+      const url = tab.url || tab.pendingUrl;
+      return isListPageURL(url);
+    });
     await closeTabs(tabsToClose);
   }
   // TODO: call openListPage here instead?
