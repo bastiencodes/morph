@@ -1,6 +1,10 @@
 import { partition } from "../helpers/array.js";
 import { checkOptions } from "../helpers/options.js";
-import { createTabGroup, saveTabGroup } from "../helpers/storage.js";
+import {
+  createTabGroup,
+  getOptions,
+  saveTabGroup,
+} from "../helpers/storage.js";
 import { openListPage } from "./open.js";
 import { getAllTabsInWindow } from "./get.js";
 import { isListPageURL } from "../helpers/urls.js";
@@ -18,11 +22,12 @@ async function closeTabs(tabs) {
 
 // TODO: fix sendTabs to take options and not openListPage to avoid multiple calls
 async function sendTabs(tabs, shouldCheckOptions = true) {
-  // 1. Check options (pinned tabs, duplicates)
   let updatedTabs = tabs;
 
+  // 1. Check options (pinned tabs, duplicates)
   if (shouldCheckOptions) {
-    updatedTabs = await checkOptions(tabs);
+    const options = await getOptions();
+    updatedTabs = await checkOptions(tabs, options);
   }
 
   // 2. Store tabs

@@ -1,4 +1,4 @@
-import { getOptions, getTabGroups } from "./storage.js";
+import { getTabGroups } from "./storage.js";
 
 function removePinnedTabs(tabs) {
   return tabs.filter((tab) => !tab.pinned);
@@ -23,10 +23,9 @@ async function removeDuplicateTabs(tabs) {
   return tabsWithNoDuplicates;
 }
 
-export async function checkOptions(tabs) {
+export async function checkOptions(tabs, options) {
   let updatedTabs = tabs;
 
-  const options = await getOptions();
   const { ALLOW_PINNED_TABS, ALLOW_DUPLICATES } = options;
 
   if (!ALLOW_PINNED_TABS) {
