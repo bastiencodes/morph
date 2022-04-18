@@ -7,18 +7,17 @@ function removePinnedTabs(tabs) {
 // tabs with same URLs
 async function removeDuplicateTabs(tabs) {
   const tabGroups = await getTabGroups();
-  const storedTabs = Object.values(tabGroups).flatMap(
-    (tabGroup) => tabGroup.tabs
-  );
+  const storedTabs = Object.values(tabGroups)
+    .map((tabGroup) => tabGroup.tabs)
+    .flat(1);
   const storedTabURLs = storedTabs.map((tab) => tab.url);
 
-  const urls = [];
+  const urls = [...storedTabURLs];
   const tabsWithNoDuplicates = tabs.filter((tab) => {
-    const allURLs = [...storedTabURLs, ...urls];
     const { url } = tab;
-    const isDuplicate = allURLs.includes(url);
+    const isUnique = !urls.includes(url);
     urls.push(url);
-    return !isDuplicate;
+    return isUnique;
   });
 
   return tabsWithNoDuplicates;
