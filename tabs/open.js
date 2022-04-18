@@ -5,7 +5,7 @@ import {
 } from "../constants/options.js";
 import { getOptions } from "../helpers/storage.js";
 import { getListPageURL, getTransferPageURL } from "../helpers/urls.js";
-import { findTabByURL } from "./search.js";
+import { findTabByURL, isOnlyTabInCurrentWindow } from "./search.js";
 
 export const createTab = (url) =>
   chrome.tabs.create({
@@ -42,16 +42,6 @@ export async function openOptionsPage() {
   await chrome.runtime.openOptionsPage();
 }
 
-// TODO: rename function
-async function checkIfOnlyTabInCurrentWindow() {
-  const currentWindow = await chrome.windows.getCurrent();
-  const { tabs } = currentWindow;
-
-  const url = getListPageURL();
-
-  return tabs.length === 1 && tabs[0].url === url;
-}
-
 async function openTabsInCurrentWindow(tabs) {
   for (const tab of tabs) {
     await createTab(tab.url);
@@ -68,8 +58,10 @@ export async function restoreTabs(tabs) {
 
   switch (RESTORE_TAB_GROUP_IN) {
     case OPTION_NEW_WINDOW_UNLESS: {
-      const isOnlyTabInCurrentWindow = await checkIfOnlyTabInCurrentWindow();
-      if (isOnlyTabInCurrentWindow) {
+      const url = getListPageURL();
+      const isOnlyTab = await isOnlyTabInCurrentWindow(url);
+
+      if (isOnlyTab) {
         await openTabsInCurrentWindow(tabs);
         // TODO: missing return?
       }
