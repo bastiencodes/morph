@@ -20,14 +20,19 @@ async function closeTabs(tabs) {
   await chrome.tabs.remove(tabIds);
 }
 
-// TODO: fix sendTabs to take options and not openListPage to avoid multiple calls
-async function sendTabs(tabs, shouldCheckOptions = true) {
-  let updatedTabs = tabs;
+// see https://stackoverflow.com/a/9602718/4658957
+const defaults = { check: true, open: true };
 
-  // 1. Check options (pinned tabs, duplicates)
-  if (shouldCheckOptions) {
-    const options = await getOptions();
-    updatedTabs = await checkOptions(tabs, options);
+async function sendTabs(tabs, opts) {
+  const options = Object.assign({}, defaults, opts);
+
+  // TODO: updatedTabs = tabs?
+  let updatedTabs = [...tabs];
+
+  // 1. Filter tabs based on options (pinned tabs, duplicates)
+  if (options.check) {
+    const extensionOptions = await getOptions();
+    updatedTabs = await checkOptions(updatedTabs, extensionOptions);
   }
 
   // 2. Store tabs
@@ -38,8 +43,9 @@ async function sendTabs(tabs, shouldCheckOptions = true) {
 
   // 4. Display Morph
   // TODO: issue sometimes when list is opened before tabs have fully loaded
-  // TODO: issue with sendAllWindows - this gets called once for every window (should only be called once!)
-  // await openListPage();
+  if (options.open) {
+    await openListPage();
+  }
 }
 
 export async function sendAll(currentTab) {
@@ -50,7 +56,7 @@ export async function sendAll(currentTab) {
 // ensure no checks if right clicking 'Send only this tab'
 export async function sendOnly(currentTab) {
   const tabs = [currentTab];
-  return sendTabs(tabs, false);
+  return sendTabs(tabs, { check: false });
 }
 
 export async function sendExcept(currentTab) {
@@ -83,7 +89,7 @@ export async function sendAllWindows() {
       const url = tab.url || tab.pendingUrl;
       return isExtensionURL(url);
     });
-    await sendTabs(tabsToSend);
+    await sendTabs(tabsToSend, { open: false });
 
     // close all extension tabs except list page
     const [_, tabsToClose] = partition(extensionTabs, (tab) => {
