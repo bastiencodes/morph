@@ -1,4 +1,4 @@
-import { LIST_VIEW_PATH, TRANSFER_PATH } from "../constants/paths";
+import { LIST_VIEW_PATH, TRANSFER_PATH } from "../constants/paths.js";
 
 export const getListPageURL = () => chrome.runtime.getURL(LIST_VIEW_PATH);
 
