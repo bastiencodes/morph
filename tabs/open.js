@@ -1,8 +1,4 @@
-import {
-  OPTION_CURRENT_WINDOW,
-  OPTION_NEW_WINDOW,
-  OPTION_NEW_WINDOW_UNLESS,
-} from "../constants/options.js";
+import { Location } from "../constants/options.js";
 import { getOptions } from "../helpers/storage.js";
 import { getListPageURL, getTransferPageURL } from "../helpers/urls.js";
 import { findTabByURL, isOnlyTabInCurrentWindow } from "./search.js";
@@ -57,7 +53,7 @@ export async function restoreTabs(tabs) {
   const { RESTORE_TAB_GROUP_IN } = await getOptions();
 
   switch (RESTORE_TAB_GROUP_IN) {
-    case OPTION_NEW_WINDOW_UNLESS: {
+    case Location.NEW_WINDOW_UNLESS: {
       const url = getListPageURL();
       const isOnlyTab = await isOnlyTabInCurrentWindow(url);
 
@@ -69,12 +65,12 @@ export async function restoreTabs(tabs) {
       break;
     }
 
-    case OPTION_NEW_WINDOW: {
+    case Location.NEW_WINDOW: {
       await openTabsInNewWindow(tabs);
       break;
     }
 
-    case OPTION_CURRENT_WINDOW: {
+    case Location.CURRENT_WINDOW: {
       await openTabsInCurrentWindow(tabs);
       break;
     }
