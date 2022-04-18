@@ -1,40 +1,14 @@
-import {
-  createMenus,
-  createToolbarMenu,
-  createMenuListener,
-  updateMenuItems,
-} from "./helpers/menu.js";
-import { initOptions, getOptions } from "./helpers/storage.js";
+import { createMenuListener } from "./helpers/menu.js";
 import { createWindowListener } from "./helpers/windows.js";
 import { openListPage } from "./tabs/open.js";
-import { getActiveTabInCurrentWindow } from "./tabs/get.js";
 import { createTabListener } from "./tabs/listener.js";
 import { sendAll } from "./tabs/send.js";
 import { doDuplicateTabsExist } from "./tabs/search.js";
 import { isListPageURL } from "./helpers/urls.js";
+import { onInstalled, onStartup } from "./listeners/runtime.js";
 
-chrome.runtime.onInstalled.addListener(async (details) => {
-  console.log("Extension installed!");
-  console.log("Details", details);
-
-  if (details.reason === "install") {
-    await initOptions();
-  }
-
-  createMenus();
-  createToolbarMenu();
-
-  const activeTab = await getActiveTabInCurrentWindow();
-  const { id, windowId } = activeTab;
-  await updateMenuItems(id, windowId);
-});
-
-chrome.runtime.onStartup.addListener(async () => {
-  const { DISPLAY_MORPH_ON_STARTUP } = await getOptions();
-  if (DISPLAY_MORPH_ON_STARTUP) {
-    await openListPage();
-  }
-});
+chrome.runtime.onInstalled.addListener(onInstalled);
+chrome.runtime.onStartup.addListener(onStartup);
 
 const menuListener = createMenuListener();
 chrome.contextMenus.onClicked.addListener(menuListener);
