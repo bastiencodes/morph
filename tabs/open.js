@@ -19,15 +19,12 @@ async function bringTabToForeground(tab) {
   await chrome.tabs.highlight({ tabs: index, windowId });
 }
 
-// brings tab to foreground
-// creates tab if it does not exist
 async function openTab(url) {
-  const tab = await findTabByURL(url);
-  if (!tab) {
-    await createTab(url);
-    return;
-  }
+  const result = await findTabByURL(url);
+  // creates tab if it does not exist
+  const tab = result ? result : await createTab(url);
   await bringTabToForeground(tab);
+  return tab;
 }
 
 export async function openListPage() {
