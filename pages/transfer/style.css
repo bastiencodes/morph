@@ -1,0 +1,11 @@
+#import {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#export {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
