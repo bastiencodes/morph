@@ -1,11 +1,5 @@
-#import {
+.content {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-}
-
-#export {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  gap: 8px;
 }
